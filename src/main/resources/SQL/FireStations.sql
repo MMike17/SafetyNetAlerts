@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS fireStations;
+DROP TABLE IF EXISTS fireStation;
 
-CREATE TABLE fireStations
+CREATE TABLE fireStation
 (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	adress VARCHAR(250) NOT NULL,

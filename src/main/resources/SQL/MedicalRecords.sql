@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS medicalRecords;
+DROP TABLE IF EXISTS medicalRecord;
 
-CREATE TABLE medicalRecords
+CREATE TABLE medicalRecord
 (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	first_name VARCHAR(250) NOT NULL,
