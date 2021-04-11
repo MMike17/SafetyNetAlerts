@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.safetynet</groupId>
-	<artifactId>Safety-Net-Alerts</artifactId>
+	<artifactId>Alerts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Safety-Net-Alerts</name>
+	<name>SafetyNet Alerts</name>
 	<description>Project 5 Java OpenClassrooms</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -22,6 +22,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
