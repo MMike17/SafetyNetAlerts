@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS fireStations;
+
+CREATE TABLE fireStations
+(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	adress VARCHAR(250) NOT NULL,
+	station INT NOT NULL
+);
