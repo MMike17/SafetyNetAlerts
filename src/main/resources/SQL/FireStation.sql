@@ -3,6 +3,6 @@ DROP TABLE IF EXISTS fireStation;
 CREATE TABLE fireStation
 (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	adress VARCHAR(250) NOT NULL,
+	address VARCHAR(250) NOT NULL,
 	station INT NOT NULL
 );
