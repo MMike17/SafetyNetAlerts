@@ -9,6 +9,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "medicalRecord")
+/**
+ * Class used to model the MedicalRecord object in database
+ * 
+ * @author MikeMatthews
+ */
 public class MedicalRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
