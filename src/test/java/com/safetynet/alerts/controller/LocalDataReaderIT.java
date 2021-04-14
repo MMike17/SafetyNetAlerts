@@ -9,16 +9,27 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * Tests for integration of LocalDataReader
+ * 
+ * @author MikeMatthews
+ * @see com.safetynet.alerts.controller.LocalDataReader
+ */
 @SpringBootTest
 class LocalDataReaderIT {
 	static LocalDataReader testedReader;
 
 	@BeforeAll
 	static void setUp() {
-		System.out.println("Initialized test environment");
 		testedReader = new LocalDataReader("/data.json");
 	}
 
+	/**
+	 * Tests if the data extracted from local file is valid
+	 * 
+	 * @see com.safetynet.alerts.model.local.LocalData
+	 * @see com.safetynet.alerts.controller.LocalDataReader#readFile()
+	 */
 	@Test
 	void testReaderExtractedValues() {
 		// GIVEN
