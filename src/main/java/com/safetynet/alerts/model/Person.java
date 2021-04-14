@@ -7,6 +7,10 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "person")
+/**
+ * Class used to model the Person object in database
+ * @author MikeMatthews
+ */
 public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
