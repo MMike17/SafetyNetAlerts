@@ -61,6 +61,12 @@ public class PersonServiceIT {
 
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
+		try {
+			resultPerson.get();
+		} catch (NoSuchElementException exception) {
+			fail("The test data was not saved, but the repository sait the data was saved");
+		}
+
 		assertEquals(testPerson, resultPerson.get());
 	}
 
@@ -86,6 +92,12 @@ public class PersonServiceIT {
 			fail("The repository failed to update the data");
 
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
+
+		try {
+			resultPerson.get();
+		} catch (NoSuchElementException exception) {
+			fail("The test data was not updated, but the repository sait the data was updated");
+		}
 
 		assertEquals(expectedCity, resultPerson.get().getCity());
 	}
