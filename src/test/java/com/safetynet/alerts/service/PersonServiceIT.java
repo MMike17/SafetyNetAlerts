@@ -63,8 +63,21 @@ public class PersonServiceIT {
 	void testPersonUpdate() {
 
 		// GIVEN
+		String expectedCity = "Paris";
+		Person testPerson = generateTestPerson();
+		repository.save(testPerson);
+		testPerson.setCity(expectedCity);
+
 		// WHEN
+		boolean succeeded = testedService.updatePersonProfile(testPerson);
+
 		// THEN
+		if (!succeeded)
+			fail("The repository failed to update the data");
+
+		Optional<Person> resultPerson = repository.findById(testPerson.getId());
+
+		assertEquals(expectedCity, resultPerson.get().getCity());
 	}
 
 	@Test
