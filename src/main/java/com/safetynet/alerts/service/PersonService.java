@@ -21,7 +21,14 @@ public class PersonService {
 	 * @return true if the operation was a success
 	 */
 	public boolean addPerson(Person person) {
-		return false;
+		try {
+			repository.save(person);
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -30,16 +37,30 @@ public class PersonService {
 	 * @return true if the operation was a success
 	 */
 	public boolean updatePersonProfile(Person person) {
-		return false;
+		try {
+			repository.save(person);
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Deletes Person object in database
 	 * 
-	 * @param id ID of the Person Object
+	 * @param id ID of the Person object
 	 * @return true if the operation was a success
 	 */
 	public boolean removePerson(final Long id) {
-		return false;
+		try {
+			repository.deleteById(id);
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception);
+			return false;
+		}
+
+		return true;
 	}
 }
