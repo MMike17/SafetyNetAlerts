@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.Person;
@@ -103,8 +104,11 @@ public class PersonServiceIT {
 
 		Optional<Person> dbTestPerson = repository.findById(testPerson.getId());
 
-		if (dbTestPerson.get() == null)
+		try {
+			dbTestPerson.get();
+		} catch (NoSuchElementException exception) {
 			fail("The repository failed to save data for test");
+		}
 
 		// WHEN
 		boolean succeeded = testedService.removePerson(testPerson.getId());
@@ -115,7 +119,13 @@ public class PersonServiceIT {
 
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
-		assertEquals(null, resultPerson.get());
+		try {
+			resultPerson.get();
+		} catch (NoSuchElementException exception) {
+			return;
+		}
+
+		fail("The test data was not deleted, but the repository sait the data was deleted");
 	}
 
 	/**
