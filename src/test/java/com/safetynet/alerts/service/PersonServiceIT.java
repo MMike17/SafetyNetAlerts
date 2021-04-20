@@ -9,7 +9,9 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author MikeMatthews
  */
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonServiceIT {
 
 	@Autowired
@@ -30,10 +33,12 @@ public class PersonServiceIT {
 
 	static int nextTestPersonIndex;
 
-	@AfterAll
-	static void cleanUp() {
+	@BeforeEach
+	void setUpPerTest() {
 
 		nextTestPersonIndex = 0;
+
+		repository.deleteAll();
 	}
 
 	/**
@@ -54,7 +59,7 @@ public class PersonServiceIT {
 		if (!succeeded)
 			fail("The repository failed to save the data");
 
-		Optional<Person> resultPerson = repository.findById(Long.valueOf(0));
+		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
 		assertEquals(testPerson, resultPerson.get());
 	}
