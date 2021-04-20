@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -64,6 +63,11 @@ public class PersonServiceIT {
 		assertEquals(testPerson, resultPerson.get());
 	}
 
+	/**
+	 * Tests if the provided Person object is updated in database
+	 * 
+	 * @see com.safetynet.alerts.service.PersonService#updatePersonProfile(Person)
+	 */
 	@Test
 	void testPersonUpdate() {
 
@@ -93,6 +97,11 @@ public class PersonServiceIT {
 		// THEN
 	}
 
+	/**
+	 * Generates a test person containing dummy data
+	 * 
+	 * @return a Person object with dummy data
+	 */
 	static Person generateTestPerson() {
 
 		Person testPerson = new Person();
