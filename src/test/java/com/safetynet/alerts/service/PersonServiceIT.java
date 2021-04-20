@@ -89,12 +89,33 @@ public class PersonServiceIT {
 		assertEquals(expectedCity, resultPerson.get().getCity());
 	}
 
+	/**
+	 * Tests if the provided Person object is deleted in database
+	 * 
+	 * @see com.safetynet.alerts.service.PersonService#removePerson(Person)
+	 */
 	@Test
 	void testPersonDelete() {
 
 		// GIVEN
+		Person testPerson = generateTestPerson();
+		repository.save(testPerson);
+
+		Optional<Person> dbTestPerson = repository.findById(testPerson.getId());
+
+		if (dbTestPerson.get() == null)
+			fail("The repository failed to save data for test");
+
 		// WHEN
+		boolean succeeded = testedService.removePerson(testPerson.getId());
+
 		// THEN
+		if (!succeeded)
+			fail("The repository failed to delete the data");
+
+		Optional<Person> resultPerson = repository.findById(testPerson.getId());
+
+		assertEquals(null, resultPerson.get());
 	}
 
 	/**
