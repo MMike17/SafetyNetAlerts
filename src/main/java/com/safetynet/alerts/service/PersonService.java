@@ -1,5 +1,7 @@
 package com.safetynet.alerts.service;
 
+import java.util.Optional;
+
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
@@ -18,17 +20,12 @@ public class PersonService {
 	/**
 	 * Saves Person object in database
 	 * 
-	 * @return true if the operation was a success
+	 * @return Person with ID updated from database
 	 */
-	public boolean addPerson(Person person) {
-		try {
-			repository.save(person);
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception);
-			return false;
-		}
+	public Person addPerson(Person person) {
 
-		return true;
+		Person saved = repository.save(person);
+		return saved;
 	}
 
 	/**
@@ -37,13 +34,15 @@ public class PersonService {
 	 * @return true if the operation was a success
 	 */
 	public boolean updatePersonProfile(Person person) {
-		try {
-			repository.save(person);
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception);
+
+		Optional<Person> dbPerson = repository.findById(person.getId());
+
+		if (!dbPerson.isPresent()) {
+			System.out.println("Didn't find any object with Id " + person.getId() + " in database");
 			return false;
 		}
 
+		repository.save(person);
 		return true;
 	}
 
@@ -54,13 +53,15 @@ public class PersonService {
 	 * @return true if the operation was a success
 	 */
 	public boolean removePerson(final Long id) {
-		try {
-			repository.deleteById(id);
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception);
+
+		Optional<Person> dbPerson = repository.findById(id);
+
+		if (!dbPerson.isPresent()) {
+			System.out.println("Didn't find any object with Id " + id + " in database");
 			return false;
 		}
 
+		repository.deleteById(id);
 		return true;
 	}
 }

@@ -3,7 +3,6 @@ package com.safetynet.alerts.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.Person;
@@ -53,19 +52,13 @@ public class PersonServiceIT {
 		Person testPerson = generateTestPerson();
 
 		// WHEN
-		boolean succeeded = testedService.addPerson(testPerson);
+		testPerson = testedService.addPerson(testPerson);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to save the data");
-
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
-		try {
-			resultPerson.get();
-		} catch (NoSuchElementException exception) {
+		if (!resultPerson.isPresent())
 			fail("The test data was not saved, but the repository sait the data was saved");
-		}
 
 		assertEquals(testPerson, resultPerson.get());
 	}
@@ -80,8 +73,7 @@ public class PersonServiceIT {
 
 		// GIVEN
 		String expectedCity = "Paris";
-		Person testPerson = generateTestPerson();
-		repository.save(testPerson);
+		Person testPerson = repository.save(generateTestPerson());
 		testPerson.setCity(expectedCity);
 
 		// WHEN
@@ -93,11 +85,8 @@ public class PersonServiceIT {
 
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
-		try {
-			resultPerson.get();
-		} catch (NoSuchElementException exception) {
+		if (!resultPerson.isPresent())
 			fail("The test data was not updated, but the repository sait the data was updated");
-		}
 
 		assertEquals(expectedCity, resultPerson.get().getCity());
 	}
@@ -111,16 +100,12 @@ public class PersonServiceIT {
 	void testPersonDelete() {
 
 		// GIVEN
-		Person testPerson = generateTestPerson();
-		repository.save(testPerson);
-
+		Person testPerson = repository.save(generateTestPerson());
+		Long expectedCount = repository.count() - 1;
 		Optional<Person> dbTestPerson = repository.findById(testPerson.getId());
 
-		try {
-			dbTestPerson.get();
-		} catch (NoSuchElementException exception) {
+		if (!dbTestPerson.isPresent())
 			fail("The repository failed to save data for test");
-		}
 
 		// WHEN
 		boolean succeeded = testedService.removePerson(testPerson.getId());
@@ -129,15 +114,7 @@ public class PersonServiceIT {
 		if (!succeeded)
 			fail("The repository failed to delete the data");
 
-		Optional<Person> resultPerson = repository.findById(testPerson.getId());
-
-		try {
-			resultPerson.get();
-		} catch (NoSuchElementException exception) {
-			return;
-		}
-
-		fail("The test data was not deleted, but the repository sait the data was deleted");
+		assertEquals(expectedCount, repository.count());
 	}
 
 	/**
