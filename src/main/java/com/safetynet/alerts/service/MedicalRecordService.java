@@ -21,12 +21,12 @@ public class MedicalRecordService {
 		throw new NotImplementedException();
 	}
 
-	public boolean updateMedicalRecord(MedicalRecord record) {
+	public boolean updateRecord(MedicalRecord record) {
 
 		throw new NotImplementedException();
 	}
 
-	public boolean removeMedicalRecord(final Long id) {
+	public boolean removeRecord(final Long id) {
 
 		throw new NotImplementedException();
 	}
