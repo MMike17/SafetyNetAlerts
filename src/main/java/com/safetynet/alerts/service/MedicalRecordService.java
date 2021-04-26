@@ -46,6 +46,13 @@ public class MedicalRecordService {
 		return true;
 	}
 
+	/**
+	 * Deletes MedicalRecord object in database
+	 * 
+	 * @param firstName first name of the Person the reconrd is attached to
+	 * @param lastName  last name of the Person the reconrd is attached to
+	 * @return true if the operation was a success
+	 */
 	public boolean removeRecord(final String firstName, final String lastName) {
 
 		Iterable<MedicalRecord> dbRecords = repository.findAll();
