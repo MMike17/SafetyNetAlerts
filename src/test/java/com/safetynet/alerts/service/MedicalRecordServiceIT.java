@@ -9,18 +9,20 @@ import java.util.Optional;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Tests the interactions between MedicalRecordService and the database
+ * Tests the interactions between PersonService and the database
  * 
- * @see MedicalRecordService
- * @author Mike Matthews
+ * @see PersonService
+ * @author MikeMatthews
  */
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MedicalRecordServiceIT {
 
 	@Autowired
@@ -29,8 +31,8 @@ public class MedicalRecordServiceIT {
 	@Autowired
 	MedicalRecordService testedService;
 
-	@BeforeAll
-	void setUp() {
+	@BeforeEach
+	void setUpPerTest() {
 
 		repository.deleteAll();
 	}
@@ -64,12 +66,12 @@ public class MedicalRecordServiceIT {
 	 * @see MedicalRecordService#updateRecord(MedicalRecord)
 	 */
 	@Test
-	public void testPersonUpdate() {
+	public void testRecordUpdate() {
 
 		// GIVEN
 		String[] expectedMedication = new String[] { "doliprane" };
 		MedicalRecord testRecord = repository.save(generateTestRecord());
-		testRecord.setAllergies(expectedMedication);
+		testRecord.setMedications(expectedMedication);
 
 		// WHEN
 		boolean succeeded = testedService.updateRecord(testRecord);
@@ -92,7 +94,7 @@ public class MedicalRecordServiceIT {
 	 * @see MedicalRecordService#removeRecord(Long)
 	 */
 	@Test
-	public void testPersonDelete() {
+	public void testRecordDelete() {
 
 		// GIVEN
 		MedicalRecord testRecord = repository.save(generateTestRecord());
