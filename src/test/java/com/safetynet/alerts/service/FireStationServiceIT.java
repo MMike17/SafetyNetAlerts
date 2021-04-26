@@ -8,15 +8,15 @@ import java.util.Optional;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.repository.FireStationRepository;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Tests the interactions between FireStation and the database
  * 
- * @see FireStation
+ * @see FireStationService
  * @author MikeMatthews
  */
 @SpringBootTest
