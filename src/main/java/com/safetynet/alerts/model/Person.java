@@ -9,18 +9,30 @@ import lombok.Data;
 @Table(name = "person")
 /**
  * Class used to model the Person object in database
+ * 
  * @author MikeMatthews
  */
 public class Person {
+
+	public Person() {
+		firstName = null;
+		lastName = null;
+	}
+
+	public Person(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	@Column(name = "first_name")
-	String firstName;
+	final String firstName;
 
 	@Column(name = "last_name")
-	String lastName;
+	final String lastName;
 
 	@Column(name = "address")
 	String address;

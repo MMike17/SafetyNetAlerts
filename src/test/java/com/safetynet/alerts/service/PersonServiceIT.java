@@ -104,7 +104,7 @@ public class PersonServiceIT {
 			fail("The repository failed to save data for test");
 
 		// WHEN
-		boolean succeeded = testedService.removePerson(testPerson.getId());
+		boolean succeeded = testedService.removePerson(testPerson.getFirstName(), testPerson.getLastName());
 
 		// THEN
 		if (!succeeded)

@@ -49,19 +49,29 @@ public class PersonService {
 	/**
 	 * Deletes Person object in database
 	 * 
-	 * @param id ID of the Person object
+	 * @param firstName first name of the Person object
+	 * @param lastName  last name of the Person object
 	 * @return true if the operation was a success
 	 */
-	public boolean removePerson(final Long id) {
+	public boolean removePerson(final String firstName, final String lastName) {
 
-		Optional<Person> dbPerson = repository.findById(id);
+		Iterable<Person> dbPersons = repository.findAll();
+		Person selectedPerson = null;
 
-		if (!dbPerson.isPresent()) {
-			System.out.println("Didn't find any object with Id " + id + " in database");
+		for (Person person : dbPersons) {
+			if (person.getFirstName() == firstName || person.getLastName() == lastName) {
+				selectedPerson = person;
+				break;
+			}
+		}
+
+		if (selectedPerson == null) {
+			System.out.println("Didn't find any Person with first name : " + firstName + " and last name : " + lastName
+					+ " in database");
 			return false;
 		}
 
-		repository.deleteById(id);
+		repository.deleteById(selectedPerson.getId());
 		return true;
 	}
 }
