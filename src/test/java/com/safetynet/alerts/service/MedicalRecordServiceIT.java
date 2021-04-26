@@ -85,7 +85,8 @@ public class MedicalRecordServiceIT {
 		if (!resultRecord.isPresent())
 			fail("The test data was not updated but the repository said the data was updated");
 
-		assertEquals(expectedMedication, resultRecord.get().getMedications());
+		assertEquals(expectedMedication.length, resultRecord.get().getMedications().length);
+		assertEquals(expectedMedication[0], resultRecord.get().getMedications()[0]);
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class MedicalRecordServiceIT {
 			fail("The repository failed to save data for test");
 
 		// WHEN
-		boolean succeeded = testedService.removeRecord(testRecord.getId());
+		boolean succeeded = testedService.removeRecord(testRecord.getFirstName(), testRecord.getLastName());
 
 		// THEN
 		if (!succeeded)
