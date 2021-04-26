@@ -1,5 +1,11 @@
 package com.safetynet.alerts.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Optional;
+
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.repository.FireStationRepository;
 
 import org.junit.Test;
@@ -37,8 +43,18 @@ public class FireStationServiceIT {
 	public void testStationSave() {
 
 		// GIVEN
+		FireStation testStation = generateTestStation();
+
 		// WHEN
+		testStation = testedService.addFireStation(testStation);
+
 		// THEN
+		Optional<FireStation> resultStation = repository.findById(testStation.getId());
+
+		if (!resultStation.isPresent())
+			fail("The test data was not saved but the repository said the data was saved");
+
+		assertEquals(testStation, resultStation.get());
 	}
 
 	/**
@@ -50,8 +66,23 @@ public class FireStationServiceIT {
 	public void testStationUpdate() {
 
 		// GIVEN
+		Integer expectedIndex = 1;
+		FireStation testStation = repository.save(generateTestStation());
+		testStation.setStationId(expectedIndex);
+
 		// WHEN
+		boolean succeeded = testedService.updateRecord(testStation);
+
 		// THEN
+		if (!succeeded)
+			fail("The repository failed to update the data");
+
+		Optional<FireStation> resultStation = repository.findById(testStation.getId());
+
+		if (!resultStation.isPresent())
+			fail("The test data was not updated but the repository said the data was updated");
+
+		assertEquals(expectedIndex, resultStation.get().getStationId());
 	}
 
 	/**
@@ -63,7 +94,35 @@ public class FireStationServiceIT {
 	public void testStationDelete() {
 
 		// GIVEN
+		FireStation testStation = repository.save(generateTestStation());
+		Long expectedCount = repository.count() - 1;
+		Optional<FireStation> dbTestStation = repository.findById(testStation.getId());
+
+		if (!dbTestStation.isPresent())
+			fail("The repository failed to save data for test");
+
 		// WHEN
+		boolean succeeded = testedService.removeFireStation(testStation.getId());
+
 		// THEN
+		if (!succeeded)
+			fail("The repository failed to delete the data");
+
+		assertEquals(expectedCount, repository.count());
+	}
+
+	/**
+	 * Generates a test FireStation containing dummy data
+	 * 
+	 * @return a FireStation object with dummy data
+	 */
+	FireStation generateTestStation() {
+
+		FireStation testStation = new FireStation();
+		testStation.setId(Long.valueOf(0));
+		testStation.setAddress("Testville");
+		testStation.setStationId(0);
+
+		return testStation;
 	}
 }
