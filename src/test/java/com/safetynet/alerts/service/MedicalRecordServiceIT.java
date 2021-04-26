@@ -11,7 +11,6 @@ import com.safetynet.alerts.repository.MedicalRecordRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -22,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author MikeMatthews
  */
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MedicalRecordServiceIT {
 
 	@Autowired
@@ -92,7 +90,7 @@ public class MedicalRecordServiceIT {
 	/**
 	 * Tests if the provided MedicalRecord object is deleted in database
 	 * 
-	 * @see MedicalRecordService#removeRecord(Long)
+	 * @see MedicalRecordService#removeRecord(String, String)
 	 */
 	@Test
 	public void testRecordDelete() {

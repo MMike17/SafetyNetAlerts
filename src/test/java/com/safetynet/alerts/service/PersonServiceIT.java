@@ -10,7 +10,6 @@ import com.safetynet.alerts.repository.PersonRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author MikeMatthews
  */
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonServiceIT {
 
 	@Autowired
@@ -90,7 +88,7 @@ public class PersonServiceIT {
 	/**
 	 * Tests if the provided Person object is deleted in database
 	 * 
-	 * @see PersonService#removePerson(Long)
+	 * @see PersonService#removePerson(String, String)
 	 */
 	@Test
 	void testPersonDelete() {
