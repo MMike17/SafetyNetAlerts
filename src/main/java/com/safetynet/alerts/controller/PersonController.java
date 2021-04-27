@@ -9,24 +9,46 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller class to receive requests regarding the Person object
+ * 
+ * @see PersonService
+ * 
+ * @author Mike Matthews
+ */
 @RestController
 public class PersonController {
 
 	@Autowired
 	PersonService service;
 
+	/**
+	 * Method receiving Post requests
+	 * 
+	 * @return true if the operation was a success
+	 */
 	@PostMapping("/person")
 	public Person savePerson(Person person) {
 
 		return service.addPerson(person);
 	}
 
+	/**
+	 * Method receiving Put requests
+	 * 
+	 * @return true if the operation was a success
+	 */
 	@PutMapping("/person")
 	public boolean updatePerson(Person person) {
 
 		return service.updatePersonProfile(person);
 	}
 
+	/**
+	 * Method receiving Delete requests
+	 * 
+	 * @return true if the operation was a success
+	 */
 	@DeleteMapping("/person")
 	public boolean deletePerson(Person person) {
 
