@@ -1,5 +1,10 @@
 package com.safetynet.alerts.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +33,7 @@ public class FireStationControllerIT {
 	@Test
 	public void testPostStation() throws Exception {
 
+		mockMvc.perform(post("/firestation")).andExpect(status().isOk());
 	}
 
 	/**
@@ -38,6 +44,7 @@ public class FireStationControllerIT {
 	@Test
 	public void testPutStation() throws Exception {
 
+		mockMvc.perform(put("/firestation")).andExpect(status().isOk());
 	}
 
 	/**
@@ -48,5 +55,6 @@ public class FireStationControllerIT {
 	@Test
 	public void testDeleteStation() throws Exception {
 
+		mockMvc.perform(delete("/firestation")).andExpect(status().isOk());
 	}
 }
