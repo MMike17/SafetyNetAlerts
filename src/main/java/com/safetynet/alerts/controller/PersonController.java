@@ -25,7 +25,7 @@ public class PersonController {
 	/**
 	 * Method receiving Post requests
 	 * 
-	 * @return true if the operation was a success
+	 * @return the Person object saved and updated
 	 */
 	@PostMapping("/person")
 	public Person savePerson(Person person) {
