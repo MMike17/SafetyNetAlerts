@@ -1,73 +1,38 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.TestDataGenerator;
-import com.safetynet.alerts.repository.PersonRepository;
-import com.safetynet.alerts.service.PersonService;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = PersonController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class PersonControllerIT {
 
 	@Autowired
 	MockMvc mockMvc;
 
-	@Autowired
-	PersonRepository repository;
-
-	@MockBean
-	PersonService service;
-
-	static TestDataGenerator dataGenerator;
-
-	@BeforeAll
-	static void setUp() {
-
-		dataGenerator = new TestDataGenerator();
-	}
-
 	@Test
-	public void testPostPersonValid() throws Exception {
+	public void testPostPerson() throws Exception {
 
-		// GIVEN
-		// WHEN
-		// THEN
-	}
-
-	@Test
-	public void testPostPersonNull() throws Exception {
-
-		// GIVEN
-		// WHEN
-		// THEN
+		mockMvc.perform(post("/person")).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testPutPerson() throws Exception {
 
-		// GIVEN
-		// WHEN
-		// THEN
+		mockMvc.perform(put("/person")).andExpect(status().isOk());
 	}
 
 	@Test
-	public void testDeletePersonValid() throws Exception {
+	public void testDeletePerson() throws Exception {
 
-		// GIVEN
-		// WHEN
-		// THEN
-	}
-
-	@Test
-	public void testDeletePersonNull() throws Exception {
-
-		// GIVEN
-		// WHEN
-		// THEN
+		mockMvc.perform(delete("/person")).andExpect(status().isOk());
 	}
 }
