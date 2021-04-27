@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
 
+import com.safetynet.alerts.TestDataGenerator;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.repository.FireStationRepository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,14 @@ public class FireStationServiceIT {
 	@Autowired
 	FireStationService testedService;
 
+	static TestDataGenerator dataGenerator;
+
+	@BeforeAll
+	static void setUp() {
+
+		dataGenerator = new TestDataGenerator();
+	}
+
 	@BeforeEach
 	void setUpPerTest() {
 
@@ -43,7 +53,7 @@ public class FireStationServiceIT {
 	public void testStationSave() {
 
 		// GIVEN
-		FireStation testStation = generateTestStation();
+		FireStation testStation = dataGenerator.generateTestStation();
 
 		// WHEN
 		testStation = testedService.addFireStation(testStation);
@@ -67,7 +77,7 @@ public class FireStationServiceIT {
 
 		// GIVEN
 		Integer expectedIndex = 1;
-		FireStation testStation = repository.save(generateTestStation());
+		FireStation testStation = repository.save(dataGenerator.generateTestStation());
 		testStation.setStationId(expectedIndex);
 
 		// WHEN
@@ -94,7 +104,7 @@ public class FireStationServiceIT {
 	public void testStationDelete() {
 
 		// GIVEN
-		FireStation testStation = repository.save(generateTestStation());
+		FireStation testStation = repository.save(dataGenerator.generateTestStation());
 		Long expectedCount = repository.count() - 1;
 		Optional<FireStation> dbTestStation = repository.findById(testStation.getId());
 
@@ -109,20 +119,5 @@ public class FireStationServiceIT {
 			fail("The repository failed to delete the data");
 
 		assertEquals(expectedCount, repository.count());
-	}
-
-	/**
-	 * Generates a test FireStation containing dummy data
-	 * 
-	 * @return a FireStation object with dummy data
-	 */
-	FireStation generateTestStation() {
-
-		FireStation testStation = new FireStation();
-		testStation.setId(Long.valueOf(0));
-		testStation.setAddress("Testville");
-		testStation.setStationId(0);
-
-		return testStation;
 	}
 }

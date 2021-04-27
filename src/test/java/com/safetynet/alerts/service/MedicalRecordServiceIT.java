@@ -3,12 +3,13 @@ package com.safetynet.alerts.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.sql.Date;
 import java.util.Optional;
 
+import com.safetynet.alerts.TestDataGenerator;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class MedicalRecordServiceIT {
 	@Autowired
 	MedicalRecordService testedService;
 
+	static TestDataGenerator dataGenerator;
+
+	@BeforeAll
+	static void setUp() {
+
+		dataGenerator = new TestDataGenerator();
+	}
+
 	@BeforeEach
 	void setUpPerTest() {
 
@@ -44,7 +53,7 @@ public class MedicalRecordServiceIT {
 	public void testRecordSave() {
 
 		// GIVEN
-		MedicalRecord testRecord = generateTestRecord();
+		MedicalRecord testRecord = dataGenerator.generateTestRecord();
 
 		// WHEN
 		testRecord = testedService.addRecord(testRecord);
@@ -68,7 +77,7 @@ public class MedicalRecordServiceIT {
 
 		// GIVEN
 		String[] expectedMedication = new String[] { "doliprane" };
-		MedicalRecord testRecord = repository.save(generateTestRecord());
+		MedicalRecord testRecord = repository.save(dataGenerator.generateTestRecord());
 		testRecord.setMedications(expectedMedication);
 
 		// WHEN
@@ -96,7 +105,7 @@ public class MedicalRecordServiceIT {
 	public void testRecordDelete() {
 
 		// GIVEN
-		MedicalRecord testRecord = repository.save(generateTestRecord());
+		MedicalRecord testRecord = repository.save(dataGenerator.generateTestRecord());
 		Long expectedCount = repository.count() - 1;
 		Optional<MedicalRecord> dbTestRecord = repository.findById(testRecord.getId());
 
@@ -111,23 +120,5 @@ public class MedicalRecordServiceIT {
 			fail("The repository failed to delete the data");
 
 		assertEquals(expectedCount, repository.count());
-	}
-
-	/**
-	 * Generates a test MedicalRecord containing dummy data
-	 * 
-	 * @return a MedicalRecord object with dummy data
-	 */
-	MedicalRecord generateTestRecord() {
-
-		MedicalRecord testRecord = new MedicalRecord();
-		testRecord.setId(Long.valueOf(0));
-		testRecord.setFirstName("Test");
-		testRecord.setLastName("TEST");
-		testRecord.setBirthDate(new Date(645400800000L));
-		testRecord.setMedications(new String[] { "test" });
-		testRecord.setAllergies(new String[] { "test" });
-
-		return testRecord;
 	}
 }

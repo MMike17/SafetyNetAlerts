@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
 
+import com.safetynet.alerts.TestDataGenerator;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,14 @@ public class PersonServiceIT {
 	@Autowired
 	PersonService testedService;
 
+	static TestDataGenerator dataGenerator;
+
+	@BeforeAll
+	static void setUp() {
+
+		dataGenerator = new TestDataGenerator();
+	}
+
 	@BeforeEach
 	void setUpPerTest() {
 
@@ -43,7 +53,7 @@ public class PersonServiceIT {
 	void testPersonSave() {
 
 		// GIVEN
-		Person testPerson = generateTestPerson();
+		Person testPerson = dataGenerator.generateTestPerson();
 
 		// WHEN
 		testPerson = testedService.addPerson(testPerson);
@@ -67,7 +77,7 @@ public class PersonServiceIT {
 
 		// GIVEN
 		String expectedCity = "Paris";
-		Person testPerson = repository.save(generateTestPerson());
+		Person testPerson = repository.save(dataGenerator.generateTestPerson());
 		testPerson.setCity(expectedCity);
 
 		// WHEN
@@ -94,7 +104,7 @@ public class PersonServiceIT {
 	void testPersonDelete() {
 
 		// GIVEN
-		Person testPerson = repository.save(generateTestPerson());
+		Person testPerson = repository.save(dataGenerator.generateTestPerson());
 		Long expectedCount = repository.count() - 1;
 		Optional<Person> dbTestPerson = repository.findById(testPerson.getId());
 
@@ -109,23 +119,5 @@ public class PersonServiceIT {
 			fail("The repository failed to delete the data");
 
 		assertEquals(expectedCount, repository.count());
-	}
-
-	/**
-	 * Generates a test person containing dummy data
-	 * 
-	 * @return a Person object with dummy data
-	 */
-	Person generateTestPerson() {
-
-		Person testPerson = new Person("Test", "TEST");
-		testPerson.setId(Long.valueOf(0));
-		testPerson.setAddress("X Test road");
-		testPerson.setCity("Test city");
-		testPerson.setZipCode(123);
-		testPerson.setPhone("000-000-0001");
-		testPerson.setEmail("testmail@test.com");
-
-		return testPerson;
 	}
 }
