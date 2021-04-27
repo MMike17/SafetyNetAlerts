@@ -15,6 +15,17 @@ import lombok.Data;
  * @author MikeMatthews
  */
 public class MedicalRecord {
+
+	public MedicalRecord() {
+		firstName = null;
+		lastName = null;
+	}
+
+	public MedicalRecord(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;

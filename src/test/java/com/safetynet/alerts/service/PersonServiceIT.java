@@ -10,18 +10,16 @@ import com.safetynet.alerts.repository.PersonRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Tests the interactions between PersonService and the database
  * 
- * @see com.safetynet.alerts.service.PersonService
+ * @see PersonService
  * @author MikeMatthews
  */
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonServiceIT {
 
 	@Autowired
@@ -30,12 +28,8 @@ public class PersonServiceIT {
 	@Autowired
 	PersonService testedService;
 
-	static int nextTestPersonIndex;
-
 	@BeforeEach
 	void setUpPerTest() {
-
-		nextTestPersonIndex = 0;
 
 		repository.deleteAll();
 	}
@@ -43,7 +37,7 @@ public class PersonServiceIT {
 	/**
 	 * Tests if the provided Person object is saved in database
 	 * 
-	 * @see com.safetynet.alerts.service.PersonService#addPerson(Person)
+	 * @see PersonService#addPerson(Person)
 	 */
 	@Test
 	void testPersonSave() {
@@ -58,7 +52,7 @@ public class PersonServiceIT {
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
 		if (!resultPerson.isPresent())
-			fail("The test data was not saved, but the repository sait the data was saved");
+			fail("The test data was not saved, but the repository said the data was saved");
 
 		assertEquals(testPerson, resultPerson.get());
 	}
@@ -66,7 +60,7 @@ public class PersonServiceIT {
 	/**
 	 * Tests if the provided Person object is updated in database
 	 * 
-	 * @see com.safetynet.alerts.service.PersonService#updatePersonProfile(Person)
+	 * @see PersonService#updatePersonProfile(Person)
 	 */
 	@Test
 	void testPersonUpdate() {
@@ -86,7 +80,7 @@ public class PersonServiceIT {
 		Optional<Person> resultPerson = repository.findById(testPerson.getId());
 
 		if (!resultPerson.isPresent())
-			fail("The test data was not updated, but the repository sait the data was updated");
+			fail("The test data was not updated, but the repository said the data was updated");
 
 		assertEquals(expectedCity, resultPerson.get().getCity());
 	}
@@ -94,7 +88,7 @@ public class PersonServiceIT {
 	/**
 	 * Tests if the provided Person object is deleted in database
 	 * 
-	 * @see com.safetynet.alerts.service.PersonService#removePerson(Person)
+	 * @see PersonService#removePerson(String, String)
 	 */
 	@Test
 	void testPersonDelete() {
@@ -108,7 +102,7 @@ public class PersonServiceIT {
 			fail("The repository failed to save data for test");
 
 		// WHEN
-		boolean succeeded = testedService.removePerson(testPerson.getId());
+		boolean succeeded = testedService.removePerson(testPerson.getFirstName(), testPerson.getLastName());
 
 		// THEN
 		if (!succeeded)
@@ -122,12 +116,10 @@ public class PersonServiceIT {
 	 * 
 	 * @return a Person object with dummy data
 	 */
-	static Person generateTestPerson() {
+	Person generateTestPerson() {
 
-		Person testPerson = new Person();
-		testPerson.setId(Long.valueOf(nextTestPersonIndex));
-		testPerson.setFirstName("Test");
-		testPerson.setLastName("TEST");
+		Person testPerson = new Person("Test", "TEST");
+		testPerson.setId(Long.valueOf(0));
 		testPerson.setAddress("X Test road");
 		testPerson.setCity("Test city");
 		testPerson.setZipCode(123);
