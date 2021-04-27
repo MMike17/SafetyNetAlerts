@@ -3,7 +3,6 @@ package com.safetynet.alerts.controller;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.service.FireStationService;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +30,7 @@ public class FireStationController {
 	@PostMapping("/firestation")
 	public FireStation saveStation(FireStation station) {
 
-		throw new NotImplementedException();
+		return service.addFireStation(station);
 	}
 
 	/**
@@ -42,7 +41,7 @@ public class FireStationController {
 	@PutMapping("/firestation")
 	public boolean updateStation(FireStation station) {
 
-		throw new NotImplementedException();
+		return service.updateFireStation(station);
 	}
 
 	/**
@@ -53,6 +52,6 @@ public class FireStationController {
 	@DeleteMapping("/firestation")
 	public boolean deleteStation(FireStation station) {
 
-		throw new NotImplementedException();
+		return service.removeFireStation(station.getId());
 	}
 }
