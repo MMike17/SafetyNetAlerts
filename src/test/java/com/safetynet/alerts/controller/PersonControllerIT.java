@@ -44,7 +44,7 @@ public class PersonControllerIT {
 	@Test
 	public void testPutPerson() throws Exception {
 
-		mockMvc.perform(put("/person")).andExpect(status().isOk());
+		mockMvc.perform(put("/person")).andExpect(status().isBadRequest());
 	}
 
 	/**
