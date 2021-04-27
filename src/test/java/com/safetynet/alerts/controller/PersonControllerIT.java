@@ -11,6 +11,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+/**
+ * Tests Person controller with simulated web requests
+ * 
+ * @see PersonController
+ * 
+ * @author MikeMatthews
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PersonControllerIT {
@@ -18,18 +25,33 @@ public class PersonControllerIT {
 	@Autowired
 	MockMvc mockMvc;
 
+	/**
+	 * Tests Post request
+	 * 
+	 * @see PersonController#savePerson(Person)
+	 */
 	@Test
 	public void testPostPerson() throws Exception {
 
 		mockMvc.perform(post("/person")).andExpect(status().isOk());
 	}
 
+	/**
+	 * Tests Put request
+	 * 
+	 * @see PersonController#updatePerson(Person)
+	 */
 	@Test
 	public void testPutPerson() throws Exception {
 
 		mockMvc.perform(put("/person")).andExpect(status().isOk());
 	}
 
+	/**
+	 * Tests Delete request
+	 * 
+	 * @see PersonController#deletePerson(Person)
+	 */
 	@Test
 	public void testDeletePerson() throws Exception {
 
