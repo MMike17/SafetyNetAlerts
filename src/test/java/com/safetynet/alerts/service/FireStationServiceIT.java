@@ -112,12 +112,9 @@ public class FireStationServiceIT {
 			fail("The repository failed to save data for test");
 
 		// WHEN
-		boolean succeeded = testedService.removeFireStation(testStation.getId());
+		testedService.removeFireStation(testStation.getId());
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to delete the data");
-
 		assertEquals(expectedCount, repository.count());
 	}
 }

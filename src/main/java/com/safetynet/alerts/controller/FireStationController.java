@@ -50,8 +50,8 @@ public class FireStationController {
 	 * @return true if the operation was a success
 	 */
 	@DeleteMapping("/firestation")
-	public boolean deleteStation(FireStation station) {
+	public void deleteStation(FireStation station) {
 
-		return service.removeFireStation(station.getId());
+		service.removeFireStation(station.getId());
 	}
 }
