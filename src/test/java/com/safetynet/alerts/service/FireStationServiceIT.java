@@ -70,7 +70,7 @@ public class FireStationServiceIT {
 	/**
 	 * Tests if the provided FireStation object is updated in database
 	 * 
-	 * @see FireStationService#updateRecord(FireStation)
+	 * @see FireStationService#updateFireStation(FireStation)
 	 */
 	@Test
 	public void testStationUpdate() {
@@ -81,7 +81,7 @@ public class FireStationServiceIT {
 		testStation.setStationId(expectedIndex);
 
 		// WHEN
-		boolean succeeded = testedService.updateRecord(testStation);
+		boolean succeeded = testedService.updateFireStation(testStation);
 
 		// THEN
 		if (!succeeded)

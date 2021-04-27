@@ -31,7 +31,7 @@ public class FireStationService {
 	 * 
 	 * @return true if the operation was a success
 	 */
-	public boolean updateRecord(FireStation station) {
+	public boolean updateFireStation(FireStation station) {
 
 		throw new NotImplementedException();
 	}
