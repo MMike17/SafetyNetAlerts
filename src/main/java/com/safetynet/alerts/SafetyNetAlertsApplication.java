@@ -1,8 +1,8 @@
 package com.safetynet.alerts;
 
 import com.safetynet.alerts.controller.LocalDataReader;
-import com.safetynet.alerts.controller.LocalFileProperty;
 import com.safetynet.alerts.model.local.LocalData;
+import com.safetynet.alerts.properties.LocalFileProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
