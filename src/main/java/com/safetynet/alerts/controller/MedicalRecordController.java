@@ -31,7 +31,8 @@ public class MedicalRecordController {
 	@PostMapping("/medicalRecord")
 	public MedicalRecord saveRecord(MedicalRecord record) {
 
-		throw new NotImplementedException();
+		MedicalRecord saved = service.addRecord(record);
+		return saved;
 	}
 
 	/**
@@ -40,9 +41,9 @@ public class MedicalRecordController {
 	 * @return true of the operation was a success
 	 */
 	@PutMapping("/medicalRecord")
-	public MedicalRecord updateRecord(MedicalRecord record) {
+	public boolean updateRecord(MedicalRecord record) {
 
-		throw new NotImplementedException();
+		return service.updateRecord(record);
 	}
 
 	/**
@@ -51,8 +52,8 @@ public class MedicalRecordController {
 	 * @return true of the operation was a success
 	 */
 	@DeleteMapping("/medicalRecord")
-	public MedicalRecord deleteRecord(MedicalRecord record) {
+	public boolean deleteRecord(MedicalRecord record) {
 
-		throw new NotImplementedException();
+		return service.removeRecord(record.getFirstName(), record.getLastName());
 	}
 }
