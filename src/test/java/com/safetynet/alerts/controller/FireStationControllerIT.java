@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -56,5 +57,16 @@ public class FireStationControllerIT {
 	public void testDeleteStation() throws Exception {
 
 		mockMvc.perform(delete("/firestation")).andExpect(status().isOk());
+	}
+
+	/**
+	 * Tests getting list of people that are covered by provided firestation index
+	 * 
+	 * @see FireStationController#getPersonsCoveredByStation(int)
+	 */
+	@Test
+	public void testGetPersonCoveredByStation() throws Exception {
+
+		mockMvc.perform(get("/firestation?stationNumber=1")).andExpect(status().isOk());
 	}
 }
