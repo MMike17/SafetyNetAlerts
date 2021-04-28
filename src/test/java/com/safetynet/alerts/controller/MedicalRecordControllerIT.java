@@ -1,5 +1,10 @@
 package com.safetynet.alerts.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +33,7 @@ public class MedicalRecordControllerIT {
 	@Test
 	public void testPostRecord() throws Exception {
 
+		mockMvc.perform(post("/medicalRecord")).andExpect(status().isOk());
 	}
 
 	/**
@@ -38,6 +44,7 @@ public class MedicalRecordControllerIT {
 	@Test
 	public void testPutRecord() throws Exception {
 
+		mockMvc.perform(put("/medicalRecord")).andExpect(status().isOk());
 	}
 
 	/**
@@ -48,5 +55,6 @@ public class MedicalRecordControllerIT {
 	@Test
 	public void testDeleteRecord() throws Exception {
 
+		mockMvc.perform(delete("/medicalRecord")).andExpect(status().isOk());
 	}
 }
