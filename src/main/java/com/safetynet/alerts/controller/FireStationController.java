@@ -46,8 +46,6 @@ public class FireStationController {
 
 	/**
 	 * Method receiving Delete requests
-	 * 
-	 * @return true if the operation was a success
 	 */
 	@DeleteMapping("/firestation")
 	public void deleteStation(FireStation station) {
