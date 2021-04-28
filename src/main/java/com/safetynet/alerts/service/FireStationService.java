@@ -1,9 +1,10 @@
 package com.safetynet.alerts.service;
 
+import java.util.Optional;
+
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.repository.FireStationRepository;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,8 @@ public class FireStationService {
 	 */
 	public FireStation addFireStation(FireStation station) {
 
-		throw new NotImplementedException();
+		FireStation saved = repository.save(station);
+		return saved;
 	}
 
 	/**
@@ -31,18 +33,24 @@ public class FireStationService {
 	 * 
 	 * @return true if the operation was a success
 	 */
-	public boolean updateRecord(FireStation station) {
+	public boolean updateFireStation(FireStation station) {
 
-		throw new NotImplementedException();
+		Optional<FireStation> dbStation = repository.findById(station.getId());
+
+		if (!dbStation.isPresent()) {
+			System.out.println("Didn't find any object with Id " + station.getId() + " in database");
+			return false;
+		}
+
+		repository.save(station);
+		return true;
 	}
 
 	/**
 	 * Deletes FireStation object in database
-	 * 
-	 * @return true if the operation was a success
 	 */
-	public boolean removeFireStation(final Long id) {
+	public void removeFireStation(final Long id) {
 
-		throw new NotImplementedException();
+		repository.deleteById(id);
 	}
 }
