@@ -81,19 +81,11 @@ public class MedicalRecordServiceIT {
 		testRecord.setMedications(expectedMedication);
 
 		// WHEN
-		boolean succeeded = testedService.updateRecord(testRecord);
+		MedicalRecord dbRecord = testedService.updateRecord(testRecord);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to update the data");
-
-		Optional<MedicalRecord> resultRecord = repository.findById(testRecord.getId());
-
-		if (!resultRecord.isPresent())
-			fail("The test data was not updated but the repository said the data was updated");
-
-		assertEquals(expectedMedication.length, resultRecord.get().getMedications().length);
-		assertEquals(expectedMedication[0], resultRecord.get().getMedications()[0]);
+		assertEquals(expectedMedication.length, dbRecord.getMedications().length);
+		assertEquals(expectedMedication[0], dbRecord.getMedications()[0]);
 	}
 
 	/**

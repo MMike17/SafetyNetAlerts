@@ -76,23 +76,15 @@ public class FireStationServiceIT {
 	public void testStationUpdate() {
 
 		// GIVEN
-		Integer expectedIndex = 1;
+		String expectedAdress = "Other test";
 		FireStation testStation = repository.save(dataGenerator.generateTestStation());
-		testStation.setStationId(expectedIndex);
+		testStation.setAddress(expectedAdress);
 
 		// WHEN
-		boolean succeeded = testedService.updateFireStation(testStation);
+		FireStation dbStation = testedService.updateFireStation(testStation);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to update the data");
-
-		Optional<FireStation> resultStation = repository.findById(testStation.getId());
-
-		if (!resultStation.isPresent())
-			fail("The test data was not updated but the repository said the data was updated");
-
-		assertEquals(expectedIndex, resultStation.get().getStationId());
+		assertEquals(testStation.getAddress(), dbStation.getAddress());
 	}
 
 	/**

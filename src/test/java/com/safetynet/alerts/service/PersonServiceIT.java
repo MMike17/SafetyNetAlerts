@@ -81,18 +81,10 @@ public class PersonServiceIT {
 		testPerson.setCity(expectedCity);
 
 		// WHEN
-		boolean succeeded = testedService.updatePersonProfile(testPerson);
+		Person dbPerson = testedService.updatePersonProfile(testPerson);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to update the data");
-
-		Optional<Person> resultPerson = repository.findById(testPerson.getId());
-
-		if (!resultPerson.isPresent())
-			fail("The test data was not updated, but the repository said the data was updated");
-
-		assertEquals(expectedCity, resultPerson.get().getCity());
+		assertEquals(expectedCity, dbPerson.getCity());
 	}
 
 	/**
