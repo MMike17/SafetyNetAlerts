@@ -3,6 +3,7 @@ package com.safetynet.alerts.controller;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,10 @@ public class PersonController {
 	@PostMapping("/person")
 	public Person savePerson(Person person) {
 
-		return service.addPerson(person);
+		if (person != null)
+			return service.addPerson(person);
+		else
+			throw new IllegalArgumentException("The provided object was null");
 	}
 
 	/**
@@ -41,7 +45,10 @@ public class PersonController {
 	@PutMapping("/person")
 	public boolean updatePerson(Person person) {
 
-		return service.updatePersonProfile(person);
+		if (person != null)
+			return service.updatePersonProfile(person);
+		else
+			throw new IllegalArgumentException("The provided object was null");
 	}
 
 	/**
@@ -50,8 +57,11 @@ public class PersonController {
 	 * @return true if the operation was a success
 	 */
 	@DeleteMapping("/person")
-	public boolean deletePerson(Person person) {
+	public boolean deletePerson(final String firstName, final String lastName) {
 
-		return service.removePerson(person.getFirstName(), person.getLastName());
+		if (!StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName))
+			return service.removePerson(firstName, lastName);
+		else
+			throw new IllegalArgumentException("The provided objects was null or blank");
 	}
 }

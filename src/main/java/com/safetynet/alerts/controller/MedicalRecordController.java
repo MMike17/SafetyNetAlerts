@@ -3,6 +3,7 @@ package com.safetynet.alerts.controller;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.MedicalRecordService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,11 @@ public class MedicalRecordController {
 	@PostMapping("/medicalRecord")
 	public MedicalRecord saveRecord(MedicalRecord record) {
 
-		MedicalRecord saved = service.addRecord(record);
-		return saved;
+		if (record != null) {
+			return service.addRecord(record);
+		} else {
+			throw new IllegalArgumentException("The provided object was null");
+		}
 	}
 
 	/**
@@ -42,7 +46,11 @@ public class MedicalRecordController {
 	@PutMapping("/medicalRecord")
 	public boolean updateRecord(MedicalRecord record) {
 
-		return service.updateRecord(record);
+		if (record != null) {
+			return service.updateRecord(record);
+		} else {
+			throw new IllegalArgumentException("The provided object was null");
+		}
 	}
 
 	/**
@@ -51,8 +59,12 @@ public class MedicalRecordController {
 	 * @return true of the operation was a success
 	 */
 	@DeleteMapping("/medicalRecord")
-	public boolean deleteRecord(MedicalRecord record) {
+	public boolean deleteRecord(final String firstName, final String lastName) {
 
-		return service.removeRecord(record.getFirstName(), record.getLastName());
+		if (!StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName)) {
+			return service.removeRecord(firstName, lastName);
+		} else {
+			throw new IllegalArgumentException("The provided objects was null or blank");
+		}
 	}
 }

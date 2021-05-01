@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Controller class to receive requests regarding the FireStations
  * 
- * @see FireStation
+ * @see FireStationService
  * 
  * @author Mike Matthews
  */
@@ -30,7 +30,11 @@ public class FireStationController {
 	@PostMapping("/firestation")
 	public FireStation saveStation(FireStation station) {
 
-		return service.addFireStation(station);
+		if (station != null)
+			return service.addFireStation(station);
+		else {
+			throw new IllegalArgumentException("The provided object was null");
+		}
 	}
 
 	/**
@@ -41,15 +45,23 @@ public class FireStationController {
 	@PutMapping("/firestation")
 	public boolean updateStation(FireStation station) {
 
-		return service.updateFireStation(station);
+		if (station != null)
+			return service.updateFireStation(station);
+		else {
+			throw new IllegalArgumentException("The provided object was null");
+		}
 	}
 
 	/**
 	 * Method receiving Delete requests
 	 */
 	@DeleteMapping("/firestation")
-	public void deleteStation(FireStation station) {
+	public void deleteStation(final Long stationID) {
 
-		service.removeFireStation(station.getId());
+		if (stationID > -1)
+			service.removeFireStation(stationID);
+		else {
+			throw new IllegalArgumentException("The provided index was negative");
+		}
 	}
 }
