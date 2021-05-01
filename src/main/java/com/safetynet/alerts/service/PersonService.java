@@ -31,19 +31,18 @@ public class PersonService {
 	/**
 	 * Updates infos of Person in database
 	 * 
-	 * @return true if the operation was a success
+	 * @return updated Person object
 	 */
-	public boolean updatePersonProfile(Person person) {
+	public Person updatePersonProfile(Person person) {
 
 		Optional<Person> dbPerson = repository.findById(person.getId());
 
 		if (!dbPerson.isPresent()) {
 			System.out.println("Didn't find any object with Id " + person.getId() + " in database");
-			return false;
+			return null;
 		}
 
-		repository.save(person);
-		return true;
+		return repository.save(person);
 	}
 
 	/**

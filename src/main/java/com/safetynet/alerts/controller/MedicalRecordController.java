@@ -41,10 +41,10 @@ public class MedicalRecordController {
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true of the operation was a success
+	 * @return the MedicalRecord object updated
 	 */
 	@PutMapping("/medicalRecord")
-	public boolean updateRecord(MedicalRecord record) {
+	public MedicalRecord updateRecord(MedicalRecord record) {
 
 		if (record != null) {
 			return service.updateRecord(record);

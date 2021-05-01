@@ -40,10 +40,10 @@ public class PersonController {
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true if the operation was a success
+	 * @return the Person object updated
 	 */
 	@PutMapping("/person")
-	public boolean updatePerson(Person person) {
+	public Person updatePerson(Person person) {
 
 		if (person != null)
 			return service.updatePersonProfile(person);

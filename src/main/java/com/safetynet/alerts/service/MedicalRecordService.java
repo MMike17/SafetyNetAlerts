@@ -31,19 +31,18 @@ public class MedicalRecordService {
 	/**
 	 * Updates infos of MedicalRecord in database
 	 * 
-	 * @return true if the operation was a success
+	 * @return updated MedicalRecord object
 	 */
-	public boolean updateRecord(MedicalRecord record) {
+	public MedicalRecord updateRecord(MedicalRecord record) {
 
 		Optional<MedicalRecord> dbRecord = repository.findById(record.getId());
 
 		if (!dbRecord.isPresent()) {
 			System.out.println("Didn't find any object with Id " + record.getId() + " in database");
-			return false;
+			return null;
 		}
 
-		repository.save(record);
-		return true;
+		return repository.save(record);
 	}
 
 	/**

@@ -40,10 +40,10 @@ public class FireStationController {
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true if the operation was a success
+	 * @return the FireStation object updated
 	 */
 	@PutMapping("/firestation")
-	public boolean updateStation(FireStation station) {
+	public FireStation updateStation(FireStation station) {
 
 		if (station != null)
 			return service.updateFireStation(station);
