@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,9 +29,9 @@ public class FireStationController {
 	 * @return the FireStation object saved and updated
 	 */
 	@PostMapping("/firestation")
-	public FireStation saveStation(FireStation station) {
+	public FireStation saveStation(@RequestBody FireStation station) {
 
-		if (station != null)
+		if (station.isValid())
 			return service.addFireStation(station);
 		else {
 			throw new IllegalArgumentException("The provided object was null");
@@ -43,9 +44,9 @@ public class FireStationController {
 	 * @return the FireStation object updated
 	 */
 	@PutMapping("/firestation")
-	public FireStation updateStation(FireStation station) {
+	public FireStation updateStation(@RequestBody FireStation station) {
 
-		if (station != null)
+		if (station.isValid())
 			return service.updateFireStation(station);
 		else {
 			throw new IllegalArgumentException("The provided object was null");
@@ -56,7 +57,7 @@ public class FireStationController {
 	 * Method receiving Delete requests
 	 */
 	@DeleteMapping("/firestation")
-	public void deleteStation(final Long stationID) {
+	public void deleteStation(@RequestBody final Long stationID) {
 
 		if (stationID > -1)
 			service.removeFireStation(stationID);

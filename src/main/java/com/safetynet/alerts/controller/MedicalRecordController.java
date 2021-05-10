@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,9 +30,9 @@ public class MedicalRecordController {
 	 * @return the MedicalRecord object saved and updated
 	 */
 	@PostMapping("/medicalRecord")
-	public MedicalRecord saveRecord(MedicalRecord record) {
+	public MedicalRecord saveRecord(@RequestBody MedicalRecord record) {
 
-		if (record != null) {
+		if (record.isValid()) {
 			return service.addRecord(record);
 		} else {
 			throw new IllegalArgumentException("The provided object was null");
@@ -44,9 +45,9 @@ public class MedicalRecordController {
 	 * @return the MedicalRecord object updated
 	 */
 	@PutMapping("/medicalRecord")
-	public MedicalRecord updateRecord(MedicalRecord record) {
+	public MedicalRecord updateRecord(@RequestBody MedicalRecord record) {
 
-		if (record != null) {
+		if (record.isValid()) {
 			return service.updateRecord(record);
 		} else {
 			throw new IllegalArgumentException("The provided object was null");
@@ -59,10 +60,10 @@ public class MedicalRecordController {
 	 * @return true of the operation was a success
 	 */
 	@DeleteMapping("/medicalRecord")
-	public boolean deleteRecord(final String firstName, final String lastName) {
+	public boolean deleteRecord(@RequestBody final String[] names) {
 
-		if (!StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName)) {
-			return service.removeRecord(firstName, lastName);
+		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1])) {
+			return service.removeRecord(names[0], names[1]);
 		} else {
 			throw new IllegalArgumentException("The provided objects was null or blank");
 		}
