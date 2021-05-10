@@ -14,12 +14,8 @@ import lombok.Data;
  */
 public class Person {
 
-	public Person() {
-		firstName = null;
-		lastName = null;
-	}
-
 	public Person(String firstName, String lastName) {
+
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
@@ -48,4 +44,33 @@ public class Person {
 
 	@Column(name = "email")
 	String email;
+
+	/**
+	 * Returns true if the object doesn't have null important fields
+	 */
+	public boolean isValid() {
+
+		if (firstName == null || firstName == "")
+			return false;
+
+		if (lastName == null || lastName == "")
+			return false;
+
+		if (address == null || address == "")
+			return false;
+
+		if (city == null || city == "")
+			return false;
+
+		if (zipCode <= 0)
+			return false;
+
+		if (phone == null || phone == "")
+			return false;
+
+		if (email == null || email == "")
+			return false;
+
+		return true;
+	}
 }

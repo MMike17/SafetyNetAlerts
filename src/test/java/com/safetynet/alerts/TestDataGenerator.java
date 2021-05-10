@@ -42,10 +42,8 @@ public class TestDataGenerator {
 	 */
 	public FireStation generateTestStation() {
 
-		FireStation testStation = new FireStation();
+		FireStation testStation = new FireStation("Testville", 0);
 		testStation.setId(Long.valueOf(0));
-		testStation.setAddress("Testville");
-		testStation.setStationId(0);
 
 		return testStation;
 	}
@@ -57,10 +55,8 @@ public class TestDataGenerator {
 	 */
 	public MedicalRecord generateTestRecord() {
 
-		MedicalRecord testRecord = new MedicalRecord();
+		MedicalRecord testRecord = new MedicalRecord("Test", "TEST");
 		testRecord.setId(Long.valueOf(0));
-		testRecord.setFirstName("Test");
-		testRecord.setLastName("TEST");
 		testRecord.setBirthDate(new Date(645400800000L));
 		testRecord.setMedications(new String[] { "test" });
 		testRecord.setAllergies(new String[] { "test" });

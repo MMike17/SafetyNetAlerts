@@ -16,12 +16,8 @@ import lombok.Data;
  */
 public class MedicalRecord {
 
-	public MedicalRecord() {
-		firstName = null;
-		lastName = null;
-	}
-
 	public MedicalRecord(String firstName, String lastName) {
+
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
@@ -44,4 +40,21 @@ public class MedicalRecord {
 
 	@Column(name = "allergies")
 	String[] allergies;
+
+	/**
+	 * Returns true if the object doesn't have null important fields
+	 */
+	public boolean isValid() {
+
+		if (firstName == null || firstName == "")
+			return false;
+
+		if (lastName == null || lastName == "")
+			return false;
+
+		if (birthDate == null)
+			return false;
+
+		return true;
+	}
 }
