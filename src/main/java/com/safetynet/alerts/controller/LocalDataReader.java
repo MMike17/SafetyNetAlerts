@@ -10,10 +10,12 @@ import com.safetynet.alerts.model.local.LocalData;
 /**
  * Class reading data from local json
  * 
- * @see com.safetynet.alerts.model.local.LocalData
+ * @see LocalData
+ * 
  * @author MikeMatthews
  */
 public class LocalDataReader {
+
 	/** name of the file to read (with extention) */
 	String fileName;
 
@@ -25,9 +27,11 @@ public class LocalDataReader {
 	 * Reads data from local file
 	 * 
 	 * @return LocalData object
-	 * @see com.safetynet.alerts.model.local.LocalData
+	 * 
+	 * @see LocalData
 	 */
 	public LocalData readFile() {
+
 		LocalData localData = null;
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -40,6 +44,7 @@ public class LocalDataReader {
 		} catch (IOException exception) {
 			System.out.println(exception);
 		} finally {
+
 			try {
 				inputStream.close();
 			} catch (IOException ioException) {
