@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
@@ -35,7 +36,7 @@ public class PersonController {
 		if (person.isValid())
 			return service.addPerson(person);
 		else
-			throw new IllegalArgumentException("The provided object was null");
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -49,7 +50,7 @@ public class PersonController {
 		if (person.isValid())
 			return service.updatePersonProfile(person);
 		else
-			throw new IllegalArgumentException("The provided object was null");
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -63,6 +64,6 @@ public class PersonController {
 		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1]))
 			return service.removePerson(names[0], names[1]);
 		else
-			throw new IllegalArgumentException("The provided objects was null or blank");
+			throw new InvalidObjectException();
 	}
 }

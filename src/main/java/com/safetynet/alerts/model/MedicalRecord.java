@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,10 @@ import lombok.Data;
  * @author MikeMatthews
  */
 public class MedicalRecord {
+
+	public MedicalRecord() {
+
+	}
 
 	public MedicalRecord(String firstName, String lastName) {
 
@@ -44,6 +50,7 @@ public class MedicalRecord {
 	/**
 	 * Returns true if the object doesn't have null important fields
 	 */
+	@JsonIgnore
 	public boolean isValid() {
 
 		if (firstName == null || firstName == "")

@@ -2,6 +2,8 @@ package com.safetynet.alerts.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -13,6 +15,10 @@ import lombok.Data;
  * @author MikeMatthews
  */
 public class FireStation {
+
+	public FireStation() {
+		
+	}
 
 	public FireStation(String address, Integer stationId) {
 
@@ -33,6 +39,7 @@ public class FireStation {
 	/**
 	 * Returns true if the object doesn't have null important fields
 	 */
+	@JsonIgnore
 	public boolean isValid() {
 
 		if (address == null || address == "")

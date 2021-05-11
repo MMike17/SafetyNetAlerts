@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.MedicalRecordService;
 
@@ -32,11 +33,10 @@ public class MedicalRecordController {
 	@PostMapping("/medicalRecord")
 	public MedicalRecord saveRecord(@RequestBody MedicalRecord record) {
 
-		if (record.isValid()) {
+		if (record.isValid())
 			return service.addRecord(record);
-		} else {
-			throw new IllegalArgumentException("The provided object was null");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -47,11 +47,10 @@ public class MedicalRecordController {
 	@PutMapping("/medicalRecord")
 	public MedicalRecord updateRecord(@RequestBody MedicalRecord record) {
 
-		if (record.isValid()) {
+		if (record.isValid())
 			return service.updateRecord(record);
-		} else {
-			throw new IllegalArgumentException("The provided object was null");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -62,10 +61,9 @@ public class MedicalRecordController {
 	@DeleteMapping("/medicalRecord")
 	public boolean deleteRecord(@RequestBody final String[] names) {
 
-		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1])) {
+		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1]))
 			return service.removeRecord(names[0], names[1]);
-		} else {
-			throw new IllegalArgumentException("The provided objects was null or blank");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 }

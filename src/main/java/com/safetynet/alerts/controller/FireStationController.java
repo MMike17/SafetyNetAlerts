@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.service.FireStationService;
 
@@ -33,9 +34,8 @@ public class FireStationController {
 
 		if (station.isValid())
 			return service.addFireStation(station);
-		else {
-			throw new IllegalArgumentException("The provided object was null");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -48,9 +48,8 @@ public class FireStationController {
 
 		if (station.isValid())
 			return service.updateFireStation(station);
-		else {
-			throw new IllegalArgumentException("The provided object was null");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -61,8 +60,7 @@ public class FireStationController {
 
 		if (stationID > -1)
 			service.removeFireStation(stationID);
-		else {
-			throw new IllegalArgumentException("The provided index was negative");
-		}
+		else
+			throw new InvalidObjectException();
 	}
 }
