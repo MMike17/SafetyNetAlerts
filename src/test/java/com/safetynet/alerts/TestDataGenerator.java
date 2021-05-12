@@ -42,7 +42,7 @@ public class TestDataGenerator {
 	 */
 	public FireStation generateTestStation() {
 
-		FireStation testStation = new FireStation("Testville", 0);
+		FireStation testStation = new FireStation("X Test road", 1);
 		testStation.setId(Long.valueOf(0));
 
 		return testStation;
