@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.safetynet.alerts.TestDataGenerator;
@@ -111,5 +112,154 @@ public class PersonServiceIT {
 			fail("The repository failed to delete the data");
 
 		assertEquals(expectedCount, repository.count());
+	}
+
+	/**
+	 * Tests if the right people are returned for provided valid address
+	 * 
+	 * @see PersonService#getPeopleAtAddress(String)
+	 */
+	@Test
+	void testGetPeopleAtValidAddress() {
+
+		// GIVEN
+		ArrayList<Person> expectedPeople = new ArrayList<Person>();
+
+		Person testPerson1 = repository.save(dataGenerator.generateTestPerson());
+
+		Person testPerson2 = repository.save(dataGenerator.generateTestPerson());
+
+		Person testPerson3 = dataGenerator.generateTestPerson();
+		testPerson3.setAddress("Y Test road");
+		testPerson3 = repository.save(testPerson3);
+
+		expectedPeople.add(testPerson1);
+		expectedPeople.add(testPerson2);
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleAtAddress("X Test road");
+
+		// THEN
+		assertEquals(expectedPeople, resultPeople);
+	}
+
+	/**
+	 * Tests if the right people are returned for provided invalid address
+	 * 
+	 * @see PersonService#getPeopleAtAddress(String)
+	 */
+	@Test
+	void testGetPeopleAtInvalidAddress() {
+
+		// GIVEN
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleAtAddress("Y Test road");
+
+		// THEN
+		if (resultPeople.size() > 0)
+			fail("Expected array size was 0 but was " + resultPeople.size());
+	}
+
+	/**
+	 * Tests if the right people are returned with valid first and last name
+	 * 
+	 * @see PersonService#getPeopleFromName(String, String)
+	 */
+	@Test
+	void testGetPeopleFromValidFirstAndLastName() {
+
+		// GIVEN
+		ArrayList<Person> expectedPeople = new ArrayList<Person>();
+
+		Person testPerson1 = repository.save(dataGenerator.generateTestPerson());
+
+		Person testPerson2 = repository.save(dataGenerator.generateTestPerson());
+
+		Person testPerson3 = dataGenerator.generateTestPerson();
+		testPerson3.setFirstName("Tst");
+		testPerson3 = repository.save(testPerson3);
+
+		expectedPeople.add(testPerson1);
+		expectedPeople.add(testPerson2);
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleFromName("Test", "TEST");
+
+		// THEN
+		assertEquals(expectedPeople, resultPeople);
+	}
+
+	/**
+	 * Tests if the right people are returned with invalid first and last name
+	 * 
+	 * @see PersonService#getPeopleFromName(String, String)
+	 */
+	@Test
+	void testGetPeopleFromInvalidFirstAndLastName() {
+
+		// GIVEN
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleFromName("X", "TEST");
+
+		// THEN
+		if (resultPeople.size() > 0)
+			fail("Expected array size was 0 but was " + resultPeople.size());
+	}
+
+	/**
+	 * Tests if the right people are returned with valid city name
+	 * 
+	 * @see PersonService#getPeopleFromCity(String)
+	 */
+	@Test
+	void testGetPeopleFromValidCity() {
+
+		// GIVEN
+		ArrayList<Person> expectedPeople = new ArrayList<Person>();
+
+		Person testPerson1 = repository.save(dataGenerator.generateTestPerson());
+		Person testPerson2 = repository.save(dataGenerator.generateTestPerson());
+
+		Person testPerson3 = dataGenerator.generateTestPerson();
+		testPerson3.setCity("XX");
+		testPerson3 = repository.save(testPerson3);
+
+		expectedPeople.add(testPerson1);
+		expectedPeople.add(testPerson2);
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleFromCity("Test city");
+
+		// THEN
+		assertEquals(expectedPeople, resultPeople);
+	}
+
+	/**
+	 * Tests if the right people are returned with invalid city name
+	 * 
+	 * @see PersonService#getPeopleFromCity(String)
+	 */
+	@Test
+	void testGetPeopleFromInvalidCity() {
+
+		// GIVEN
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+		repository.save(dataGenerator.generateTestPerson());
+
+		// WHEN
+		ArrayList<Person> resultPeople = testedService.getPeopleFromCity("XX");
+
+		// THEN
+		if (resultPeople.size() > 0)
+			fail("Expected array size was 0 but was " + resultPeople.size());
 	}
 }
