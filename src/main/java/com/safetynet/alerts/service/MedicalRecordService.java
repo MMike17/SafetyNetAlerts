@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,27 @@ public class MedicalRecordService {
 
 		repository.deleteById(selectedRecord.getId());
 		return true;
+	}
+
+	/**
+	 * Gets the MedicalRecord of the provided Person
+	 */
+	public MedicalRecord getRecordForPerson(Person person) {
+
+		Iterable<MedicalRecord> records = repository.findAll();
+
+		for (MedicalRecord record : records) {
+
+			boolean same = record.getFirstName() == person.getFirstName()
+					&& record.getLastName() == person.getLastName();
+
+			System.out.println("\nfirst name : " + person.getFirstName() + " / " + record.getFirstName()
+					+ "\nlast name : " + person.getLastName() + " / " + record.getLastName() + "\nsame ? " + same);
+
+			if (record.getFirstName() == person.getFirstName() && record.getLastName() == person.getLastName())
+				return record;
+		}
+
+		return null;
 	}
 }

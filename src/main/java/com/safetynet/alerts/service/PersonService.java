@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.Person;
@@ -72,5 +73,59 @@ public class PersonService {
 
 		repository.deleteById(selectedPerson.getId());
 		return true;
+	}
+
+	/**
+	 * Get list of people at the provided adress
+	 */
+	public ArrayList<Person> getPeopleAtAddress(String address) {
+
+		ArrayList<Person> selectedPeople = new ArrayList<Person>();
+
+		Iterable<Person> people = repository.findAll();
+
+		for (Person person : people) {
+
+			if (person.getAddress() == address)
+				selectedPeople.add(person);
+		}
+
+		return selectedPeople;
+	}
+
+	/**
+	 * Get list of people from the provided first and last name
+	 */
+	public ArrayList<Person> getPeopleFromName(String firstName, String lastName) {
+
+		ArrayList<Person> selectedPeople = new ArrayList<Person>();
+
+		Iterable<Person> people = repository.findAll();
+
+		for (Person person : people) {
+
+			if (person.getFirstName() == firstName && person.getLastName() == lastName)
+				selectedPeople.add(person);
+		}
+
+		return selectedPeople;
+	}
+
+	/**
+	 * Get list of people from the provided city name
+	 */
+	public ArrayList<Person> getPeopleFromCity(String cityName) {
+
+		ArrayList<Person> selectedPeople = new ArrayList<Person>();
+
+		Iterable<Person> people = repository.findAll();
+
+		for (Person person : people) {
+
+			if (person.getCity() == cityName)
+				selectedPeople.add(person);
+		}
+
+		return selectedPeople;
 	}
 }
