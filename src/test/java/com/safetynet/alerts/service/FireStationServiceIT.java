@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.safetynet.alerts.TestDataGenerator;
@@ -76,23 +77,15 @@ public class FireStationServiceIT {
 	public void testStationUpdate() {
 
 		// GIVEN
-		Integer expectedIndex = 1;
+		String expectedAdress = "Other test";
 		FireStation testStation = repository.save(dataGenerator.generateTestStation());
-		testStation.setStationId(expectedIndex);
+		testStation.setAddress(expectedAdress);
 
 		// WHEN
-		boolean succeeded = testedService.updateFireStation(testStation);
+		FireStation dbStation = testedService.updateFireStation(testStation);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to update the data");
-
-		Optional<FireStation> resultStation = repository.findById(testStation.getId());
-
-		if (!resultStation.isPresent())
-			fail("The test data was not updated but the repository said the data was updated");
-
-		assertEquals(expectedIndex, resultStation.get().getStationId());
+		assertEquals(testStation.getAddress(), dbStation.getAddress());
 	}
 
 	/**
@@ -116,5 +109,115 @@ public class FireStationServiceIT {
 
 		// THEN
 		assertEquals(expectedCount, repository.count());
+	}
+
+	/**
+	 * Tests if the right addresses are returned from a valid station ID
+	 * 
+	 * @see FireStationService#getAddressesFromStationID(Integer)
+	 */
+	@Test
+	void testGetAddressesFromValidStationID() {
+
+		// GIVEN
+		ArrayList<String> expectedAddresses = new ArrayList<String>();
+
+		FireStation testStation1 = repository.save(dataGenerator.generateTestStation());
+
+		FireStation testStation2 = dataGenerator.generateTestStation();
+		testStation2.setStationId(2);
+		testStation2.setAddress("Y Test road");
+		testStation2 = repository.save(testStation2);
+
+		FireStation testStation3 = dataGenerator.generateTestStation();
+		testStation3.setAddress("Z Test road");
+		testStation3.setStationId(2);
+		testStation3 = repository.save(testStation3);
+
+		expectedAddresses.add(testStation1.getAddress());
+
+		// WHEN
+		ArrayList<String> resultAddresses = testedService.getAddressesFromStationID(1);
+
+		// THEN
+		assertEquals(expectedAddresses, resultAddresses);
+	}
+
+	/**
+	 * Tests if the right addresses are returned from a invalid station ID
+	 * 
+	 * @see FireStationService#getAddressesFromStationID(Integer)
+	 */
+	@Test
+	void testGetAddressesFromInvalidStationID() {
+
+		// GIVEN
+		FireStation testStation1 = repository.save(dataGenerator.generateTestStation());
+
+		FireStation testStation2 = dataGenerator.generateTestStation();
+		testStation2.setAddress("Y Test road");
+		testStation2 = repository.save(testStation2);
+
+		FireStation testStation3 = dataGenerator.generateTestStation();
+		testStation3.setAddress("Z Test road");
+		testStation3.setStationId(2);
+		testStation3 = repository.save(testStation3);
+
+		// WHEN
+		ArrayList<String> resultAddresses = testedService.getAddressesFromStationID(3);
+
+		// THEN
+		if (resultAddresses != null && resultAddresses.size() > 0)
+			fail("Expected array size was 0 but was " + resultAddresses.size());
+	}
+
+	/**
+	 * Tests if the right station ID si returned by valid address
+	 * 
+	 * @see FireStationService#getStationIDFromAddress(String)
+	 */
+	@Test
+	void testGetStationIDFromValidAddress() {
+
+		// GIVEN
+		Integer expectedStationID = 1;
+
+		repository.save(dataGenerator.generateTestStation());
+
+		FireStation testStation2 = dataGenerator.generateTestStation();
+		testStation2.setStationId(2);
+		testStation2 = repository.save(testStation2);
+
+		FireStation testStation3 = dataGenerator.generateTestStation();
+		testStation3.setStationId(3);
+		testStation3 = repository.save(testStation3);
+
+		// WHEN
+		Integer resultStationID = testedService.getStationIDFromAddress("X Test road");
+
+		// THEN
+		assertEquals(expectedStationID, resultStationID);
+	}
+
+	/**
+	 * Tests if the right station ID si returned by invalid address
+	 * 
+	 * @see FireStationService#getStationIDFromAddress(String)
+	 */
+	@Test
+	void testGetStationIDFromInvalidAddress() {
+
+		// GIVEN
+		Integer expectedStationID = -1;
+
+		repository.save(dataGenerator.generateTestStation());
+		repository.save(dataGenerator.generateTestStation());
+		repository.save(dataGenerator.generateTestStation());
+
+		// WHEN
+		Integer resultStationID = testedService.getStationIDFromAddress("Z Test road");
+
+		// THEN
+		assertEquals(expectedStationID, resultStationID);
 	}
 }

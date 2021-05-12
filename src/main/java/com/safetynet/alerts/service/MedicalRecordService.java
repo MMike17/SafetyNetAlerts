@@ -3,6 +3,7 @@ package com.safetynet.alerts.service;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +32,18 @@ public class MedicalRecordService {
 	/**
 	 * Updates infos of MedicalRecord in database
 	 * 
-	 * @return true if the operation was a success
+	 * @return updated MedicalRecord object
 	 */
-	public boolean updateRecord(MedicalRecord record) {
+	public MedicalRecord updateRecord(MedicalRecord record) {
 
 		Optional<MedicalRecord> dbRecord = repository.findById(record.getId());
 
 		if (!dbRecord.isPresent()) {
 			System.out.println("Didn't find any object with Id " + record.getId() + " in database");
-			return false;
+			return null;
 		}
 
-		repository.save(record);
-		return true;
+		return repository.save(record);
 	}
 
 	/**
@@ -73,5 +73,27 @@ public class MedicalRecordService {
 
 		repository.deleteById(selectedRecord.getId());
 		return true;
+	}
+
+	/**
+	 * Gets the MedicalRecord of the provided Person
+	 */
+	public MedicalRecord getRecordForPerson(Person person) {
+
+		Iterable<MedicalRecord> records = repository.findAll();
+
+		for (MedicalRecord record : records) {
+
+			boolean same = record.getFirstName() == person.getFirstName()
+					&& record.getLastName() == person.getLastName();
+
+			System.out.println("\nfirst name : " + person.getFirstName() + " / " + record.getFirstName()
+					+ "\nlast name : " + person.getLastName() + " / " + record.getLastName() + "\nsame ? " + same);
+
+			if (record.getFirstName() == person.getFirstName() && record.getLastName() == person.getLastName())
+				return record;
+		}
+
+		return null;
 	}
 }

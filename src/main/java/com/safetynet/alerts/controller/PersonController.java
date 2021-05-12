@@ -1,12 +1,15 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,20 +31,26 @@ public class PersonController {
 	 * @return the Person object saved and updated
 	 */
 	@PostMapping("/person")
-	public Person savePerson(Person person) {
+	public Person savePerson(@RequestBody Person person) {
 
-		return service.addPerson(person);
+		if (person.isValid())
+			return service.addPerson(person);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true if the operation was a success
+	 * @return the Person object updated
 	 */
 	@PutMapping("/person")
-	public boolean updatePerson(Person person) {
+	public Person updatePerson(@RequestBody Person person) {
 
-		return service.updatePersonProfile(person);
+		if (person.isValid())
+			return service.updatePersonProfile(person);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -50,8 +59,11 @@ public class PersonController {
 	 * @return true if the operation was a success
 	 */
 	@DeleteMapping("/person")
-	public boolean deletePerson(Person person) {
+	public boolean deletePerson(@RequestBody final String[] names) {
 
-		return service.removePerson(person.getFirstName(), person.getLastName());
+		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1]))
+			return service.removePerson(names[0], names[1]);
+		else
+			throw new InvalidObjectException();
 	}
 }

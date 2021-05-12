@@ -2,6 +2,8 @@ package com.safetynet.alerts.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -15,11 +17,13 @@ import lombok.Data;
 public class Person {
 
 	public Person() {
+
 		firstName = null;
 		lastName = null;
 	}
 
 	public Person(String firstName, String lastName) {
+
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
@@ -29,10 +33,10 @@ public class Person {
 	Long id;
 
 	@Column(name = "first_name")
-	final String firstName;
+	String firstName;
 
 	@Column(name = "last_name")
-	final String lastName;
+	String lastName;
 
 	@Column(name = "address")
 	String address;
@@ -48,4 +52,64 @@ public class Person {
 
 	@Column(name = "email")
 	String email;
+
+	/**
+	 * Returns true if the object doesn't have null important fields
+	 */
+	@JsonIgnore
+	public boolean isValid() {
+
+		if (firstName == null || firstName == "")
+			return false;
+
+		if (lastName == null || lastName == "")
+			return false;
+
+		if (address == null || address == "")
+			return false;
+
+		if (city == null || city == "")
+			return false;
+
+		if (zipCode <= 0)
+			return false;
+
+		if (phone == null || phone == "")
+			return false;
+
+		if (email == null || email == "")
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Returns true if the objects are the same
+	 */
+	@JsonIgnore
+	public boolean compare(Person other) {
+
+		if (firstName != other.firstName)
+			return false;
+
+		if (lastName != other.lastName)
+			return false;
+
+		if (address != other.address)
+			return false;
+
+		if (city != other.city)
+			return false;
+
+		if (zipCode != other.zipCode)
+			return false;
+
+		if (phone != other.phone)
+			return false;
+
+		if (email != other.email)
+			return false;
+
+		return true;
+	}
 }

@@ -12,11 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Tests for integration of LocalDataReader
  * 
+ * @see LocalDataReader
+ * 
  * @author MikeMatthews
- * @see com.safetynet.alerts.controller.LocalDataReader
  */
 @SpringBootTest
 class LocalDataReaderIT {
+
 	static LocalDataReader testedReader;
 
 	@BeforeAll
@@ -27,11 +29,12 @@ class LocalDataReaderIT {
 	/**
 	 * Tests if the data extracted from local file is valid
 	 * 
-	 * @see com.safetynet.alerts.model.local.LocalData
-	 * @see com.safetynet.alerts.controller.LocalDataReader#readFile()
+	 * @see LocalData
+	 * @see LocalDataReader#readFile()
 	 */
 	@Test
 	void testReaderExtractedValues() {
+
 		// GIVEN
 		LocalData localData = null;
 		int expectedPersonsArrayLength = 23;

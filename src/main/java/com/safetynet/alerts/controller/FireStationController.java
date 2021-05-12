@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.service.FireStationService;
 
@@ -7,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class to receive requests regarding the FireStations
  * 
- * @see FireStation
+ * @see FireStationService
  * 
  * @author Mike Matthews
  */
@@ -28,28 +30,37 @@ public class FireStationController {
 	 * @return the FireStation object saved and updated
 	 */
 	@PostMapping("/firestation")
-	public FireStation saveStation(FireStation station) {
+	public FireStation saveStation(@RequestBody FireStation station) {
 
-		return service.addFireStation(station);
+		if (station.isValid())
+			return service.addFireStation(station);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true if the operation was a success
+	 * @return the FireStation object updated
 	 */
 	@PutMapping("/firestation")
-	public boolean updateStation(FireStation station) {
+	public FireStation updateStation(@RequestBody FireStation station) {
 
-		return service.updateFireStation(station);
+		if (station.isValid())
+			return service.updateFireStation(station);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
 	 * Method receiving Delete requests
 	 */
 	@DeleteMapping("/firestation")
-	public void deleteStation(FireStation station) {
+	public void deleteStation(@RequestBody final Long stationID) {
 
-		service.removeFireStation(station.getId());
+		if (stationID > -1)
+			service.removeFireStation(stationID);
+		else
+			throw new InvalidObjectException();
 	}
 }

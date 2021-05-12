@@ -1,12 +1,15 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.exceptions.InvalidObjectException;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.MedicalRecordService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,21 +31,26 @@ public class MedicalRecordController {
 	 * @return the MedicalRecord object saved and updated
 	 */
 	@PostMapping("/medicalRecord")
-	public MedicalRecord saveRecord(MedicalRecord record) {
+	public MedicalRecord saveRecord(@RequestBody MedicalRecord record) {
 
-		MedicalRecord saved = service.addRecord(record);
-		return saved;
+		if (record.isValid())
+			return service.addRecord(record);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
 	 * Method receiving Put requests
 	 * 
-	 * @return true of the operation was a success
+	 * @return the MedicalRecord object updated
 	 */
 	@PutMapping("/medicalRecord")
-	public boolean updateRecord(MedicalRecord record) {
+	public MedicalRecord updateRecord(@RequestBody MedicalRecord record) {
 
-		return service.updateRecord(record);
+		if (record.isValid())
+			return service.updateRecord(record);
+		else
+			throw new InvalidObjectException();
 	}
 
 	/**
@@ -51,8 +59,11 @@ public class MedicalRecordController {
 	 * @return true of the operation was a success
 	 */
 	@DeleteMapping("/medicalRecord")
-	public boolean deleteRecord(MedicalRecord record) {
+	public boolean deleteRecord(@RequestBody final String[] names) {
 
-		return service.removeRecord(record.getFirstName(), record.getLastName());
+		if (!StringUtils.isBlank(names[0]) && !StringUtils.isBlank(names[1]))
+			return service.removeRecord(names[0], names[1]);
+		else
+			throw new InvalidObjectException();
 	}
 }

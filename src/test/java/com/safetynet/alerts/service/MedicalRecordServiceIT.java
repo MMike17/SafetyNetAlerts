@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.safetynet.alerts.TestDataGenerator;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -81,19 +82,11 @@ public class MedicalRecordServiceIT {
 		testRecord.setMedications(expectedMedication);
 
 		// WHEN
-		boolean succeeded = testedService.updateRecord(testRecord);
+		MedicalRecord dbRecord = testedService.updateRecord(testRecord);
 
 		// THEN
-		if (!succeeded)
-			fail("The repository failed to update the data");
-
-		Optional<MedicalRecord> resultRecord = repository.findById(testRecord.getId());
-
-		if (!resultRecord.isPresent())
-			fail("The test data was not updated but the repository said the data was updated");
-
-		assertEquals(expectedMedication.length, resultRecord.get().getMedications().length);
-		assertEquals(expectedMedication[0], resultRecord.get().getMedications()[0]);
+		assertEquals(expectedMedication.length, dbRecord.getMedications().length);
+		assertEquals(expectedMedication[0], dbRecord.getMedications()[0]);
 	}
 
 	/**
@@ -120,5 +113,56 @@ public class MedicalRecordServiceIT {
 			fail("The repository failed to delete the data");
 
 		assertEquals(expectedCount, repository.count());
+	}
+
+	/**
+	 * Tests if the right medial record is returned for valid person
+	 * 
+	 * @see MedicalRecordService#getRecordForPerson(Person)
+	 */
+	@Test
+	void testGetRecordForValidPerson() {
+
+		// GIVEN
+		MedicalRecord expectedRecord = dataGenerator.generateTestRecord();
+		expectedRecord.setFirstName("X");
+		expectedRecord = repository.save(expectedRecord);
+
+		repository.save(dataGenerator.generateTestRecord());
+
+		Person testPerson = dataGenerator.generateTestPerson();
+		testPerson.setFirstName("X");
+
+		// WHEN
+		MedicalRecord resultRecord = testedService.getRecordForPerson(testPerson);
+
+		// THEN
+		assertEquals(expectedRecord, resultRecord);
+	}
+
+	/**
+	 * Tests if the right medial record is returned for invalid person
+	 * 
+	 * @see MedicalRecordService#getRecordForPerson(Person)
+	 */
+	@Test
+	void testGetRecordForInvalidPerson() {
+
+		// GIVEN
+		MedicalRecord testRecord = dataGenerator.generateTestRecord();
+		testRecord.setFirstName("X");
+		repository.save(testRecord);
+
+		repository.save(dataGenerator.generateTestRecord());
+
+		Person testPerson = dataGenerator.generateTestPerson();
+		testPerson.setFirstName("YY");
+
+		// WHEN
+		MedicalRecord resultRecord = testedService.getRecordForPerson(testPerson);
+
+		// THEN
+		if (resultRecord != null)
+			fail("Result was supposed to be null but was " + resultRecord);
 	}
 }
