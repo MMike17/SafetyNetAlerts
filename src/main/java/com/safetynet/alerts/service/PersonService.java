@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.Person;
@@ -24,9 +25,7 @@ public class PersonService {
 	 * @return Person with ID updated from database
 	 */
 	public Person addPerson(Person person) {
-
-		Person saved = repository.save(person);
-		return saved;
+		return repository.save(person);
 	}
 
 	/**
@@ -39,6 +38,7 @@ public class PersonService {
 		Optional<Person> dbPerson = repository.findById(person.getId());
 
 		if (!dbPerson.isPresent()) {
+
 			System.out.println("Didn't find any object with Id " + person.getId() + " in database");
 			return null;
 		}
@@ -55,23 +55,16 @@ public class PersonService {
 	 */
 	public boolean removePerson(final String firstName, final String lastName) {
 
-		Iterable<Person> dbPersons = repository.findAll();
-		Person selectedPerson = null;
+		List<Person> dbPersons = repository.findByFirstNameAndLastName(firstName, lastName);
 
-		for (Person person : dbPersons) {
-			if (person.getFirstName() == firstName || person.getLastName() == lastName) {
-				selectedPerson = person;
-				break;
-			}
-		}
+		if (dbPersons == null || dbPersons.size() <= 0) {
 
-		if (selectedPerson == null) {
 			System.out.println("Didn't find any Person with first name : " + firstName + " and last name : " + lastName
 					+ " in database");
 			return false;
 		}
 
-		repository.deleteById(selectedPerson.getId());
+		repository.deleteById(dbPersons.get(0).getId());
 		return true;
 	}
 
@@ -82,11 +75,14 @@ public class PersonService {
 
 		ArrayList<Person> selectedPeople = new ArrayList<Person>();
 
-		Iterable<Person> people = repository.findAll();
+		List<Person> people = repository.findByAddress(address);
 
-		for (Person person : people) {
+		boolean isGoodResult = selectedPeople.addAll(people);
 
-			if (person.getAddress() == address)
+		// Backup code if normal code failed
+		if (!isGoodResult) {
+
+			for (Person person : people)
 				selectedPeople.add(person);
 		}
 
@@ -100,11 +96,21 @@ public class PersonService {
 
 		ArrayList<Person> selectedPeople = new ArrayList<Person>();
 
-		Iterable<Person> people = repository.findAll();
+		List<Person> people = repository.findByFirstNameAndLastName(firstName, lastName);
 
-		for (Person person : people) {
+		if (people == null || people.size() <= 0) {
 
-			if (person.getFirstName() == firstName && person.getLastName() == lastName)
+			System.out.println("Couldn't find people with first name " + firstName + " and last name " + lastName
+					+ " in database");
+			return null;
+		}
+
+		boolean isGoodResult = selectedPeople.addAll(people);
+
+		// Backup code if normal code failed
+		if (!isGoodResult) {
+
+			for (Person person : people)
 				selectedPeople.add(person);
 		}
 
@@ -118,11 +124,20 @@ public class PersonService {
 
 		ArrayList<Person> selectedPeople = new ArrayList<Person>();
 
-		Iterable<Person> people = repository.findAll();
+		List<Person> people = repository.findByCity(cityName);
 
-		for (Person person : people) {
+		if (people == null || people.size() <= 0) {
 
-			if (person.getCity() == cityName)
+			System.out.println("Couldn't find people living in " + cityName + " in database");
+			return null;
+		}
+
+		boolean isGoodResult = selectedPeople.addAll(people);
+
+		// Backup code if normal code failed
+		if (!isGoodResult) {
+
+			for (Person person : people)
 				selectedPeople.add(person);
 		}
 

@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.MedicalRecord;
@@ -25,8 +26,7 @@ public class MedicalRecordService {
 	 */
 	public MedicalRecord addRecord(MedicalRecord record) {
 
-		MedicalRecord saved = repository.save(record);
-		return saved;
+		return repository.save(record);
 	}
 
 	/**
@@ -39,6 +39,7 @@ public class MedicalRecordService {
 		Optional<MedicalRecord> dbRecord = repository.findById(record.getId());
 
 		if (!dbRecord.isPresent()) {
+
 			System.out.println("Didn't find any object with Id " + record.getId() + " in database");
 			return null;
 		}
@@ -55,23 +56,16 @@ public class MedicalRecordService {
 	 */
 	public boolean removeRecord(final String firstName, final String lastName) {
 
-		Iterable<MedicalRecord> dbRecords = repository.findAll();
-		MedicalRecord selectedRecord = null;
+		List<MedicalRecord> dbRecords = repository.findByFirstNameAndLastName(firstName, lastName);
 
-		for (MedicalRecord record : dbRecords) {
-			if (record.getFirstName() == firstName || record.getLastName() == lastName) {
-				selectedRecord = record;
-				break;
-			}
-		}
+		if (dbRecords == null || dbRecords.size() <= 0) {
 
-		if (selectedRecord == null) {
 			System.out.println("Didn't fin any MedicalRecord with first name : " + firstName + " and last name : "
-					+ lastName + "in database");
+					+ lastName + " in database");
 			return false;
 		}
 
-		repository.deleteById(selectedRecord.getId());
+		repository.deleteById(dbRecords.get(0).getId());
 		return true;
 	}
 
@@ -80,20 +74,14 @@ public class MedicalRecordService {
 	 */
 	public MedicalRecord getRecordForPerson(Person person) {
 
-		Iterable<MedicalRecord> records = repository.findAll();
+		List<MedicalRecord> records = repository.findByFirstNameAndLastName(person.getFirstName(),
+				person.getLastName());
 
-		for (MedicalRecord record : records) {
+		MedicalRecord resultRecord = null;
 
-			boolean same = record.getFirstName() == person.getFirstName()
-					&& record.getLastName() == person.getLastName();
+		if (records != null && records.size() > 0)
+			resultRecord = records.get(0);
 
-			System.out.println("\nfirst name : " + person.getFirstName() + " / " + record.getFirstName()
-					+ "\nlast name : " + person.getLastName() + " / " + record.getLastName() + "\nsame ? " + same);
-
-			if (record.getFirstName() == person.getFirstName() && record.getLastName() == person.getLastName())
-				return record;
-		}
-
-		return null;
+		return resultRecord;
 	}
 }

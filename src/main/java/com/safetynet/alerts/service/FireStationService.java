@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.safetynet.alerts.model.FireStation;
@@ -24,9 +25,7 @@ public class FireStationService {
 	 * @return FireStation with ID updated from database
 	 */
 	public FireStation addFireStation(FireStation station) {
-
-		FireStation saved = repository.save(station);
-		return saved;
+		return repository.save(station);
 	}
 
 	/**
@@ -39,6 +38,7 @@ public class FireStationService {
 		Optional<FireStation> dbStation = repository.findById(station.getId());
 
 		if (!dbStation.isPresent()) {
+
 			System.out.println("Didn't find any object with Id " + station.getId() + " in database");
 			return null;
 		}
@@ -50,7 +50,6 @@ public class FireStationService {
 	 * Deletes FireStation object in database
 	 */
 	public void removeFireStation(final Long id) {
-
 		repository.deleteById(id);
 	}
 
@@ -63,16 +62,13 @@ public class FireStationService {
 
 		ArrayList<String> addresses = new ArrayList<String>();
 
-		Iterable<FireStation> stations = repository.findAll();
+		List<FireStation> stations = repository.findByStationId(stationID);
 
-		for (FireStation station : stations) {
-
-			if (station.getStationId() == stationID)
-				addresses.add(station.getAddress());
-		}
-
-		if (addresses.size() <= 0)
+		if (stations == null || stations.size() <= 0)
 			return null;
+
+		for (FireStation station : stations)
+			addresses.add(station.getAddress());
 
 		return addresses;
 	}
@@ -82,13 +78,13 @@ public class FireStationService {
 	 */
 	public Integer getStationIDFromAddress(final String address) {
 
-		Iterable<FireStation> stations = repository.findAll();
+		List<FireStation> stations = repository.findByAddress(address);
 
-		for (FireStation station : stations) {
+		if (stations == null || stations.size() <= 0)
+			return -1;
 
-			if (station.getAddress() == address)
-				return station.getStationId();
-		}
+		for (FireStation station : stations)
+			return station.getStationId();
 
 		return -1;
 	}
