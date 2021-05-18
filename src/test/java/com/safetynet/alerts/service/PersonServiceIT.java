@@ -210,7 +210,7 @@ public class PersonServiceIT {
 		ArrayList<Person> resultPeople = testedService.getPeopleFromName("X", "TEST");
 
 		// THEN
-		if (resultPeople.size() > 0)
+		if (resultPeople != null && resultPeople.size() > 0)
 			fail("Expected array size was 0 but was " + resultPeople.size());
 	}
 
@@ -259,7 +259,7 @@ public class PersonServiceIT {
 		ArrayList<Person> resultPeople = testedService.getPeopleFromCity("XX");
 
 		// THEN
-		if (resultPeople.size() > 0)
+		if (resultPeople != null && resultPeople.size() > 0)
 			fail("Expected array size was 0 but was " + resultPeople.size());
 	}
 }

@@ -65,7 +65,8 @@ public class MedicalRecordServiceIT {
 		if (!resultRecord.isPresent())
 			fail("The test data was not saved, but the repository said the data was saved");
 
-		assertEquals(testRecord, resultRecord.get());
+		if (!testRecord.compare(resultRecord.get()))
+			fail("Test data and result data are not the same");
 	}
 
 	/**
@@ -137,7 +138,8 @@ public class MedicalRecordServiceIT {
 		MedicalRecord resultRecord = testedService.getRecordForPerson(testPerson);
 
 		// THEN
-		assertEquals(expectedRecord, resultRecord);
+		if (!expectedRecord.compare(resultRecord))
+			fail("Test data and result data are not the same");
 	}
 
 	/**
