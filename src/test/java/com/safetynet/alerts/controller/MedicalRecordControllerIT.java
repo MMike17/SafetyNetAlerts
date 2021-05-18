@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -56,11 +57,8 @@ public class MedicalRecordControllerIT {
 		String stringResult = result.getResponse().getContentAsString();
 		MedicalRecord responseRecord = jsonMapper.readValue(stringResult, MedicalRecord.class);
 
-		// replaces index because it should be updated
-		if (testData.getId() != responseRecord.getId())
-			testData.setId(responseRecord.getId());
-
-		assertEquals(testData, responseRecord);
+		if (!testData.compare(responseRecord))
+			fail("Test data and response data are not the same");
 	}
 
 	/**
@@ -111,7 +109,7 @@ public class MedicalRecordControllerIT {
 		String stringResult = result.getResponse().getContentAsString();
 		MedicalRecord responseRecord = jsonMapper.readValue(stringResult, MedicalRecord.class);
 
-		assertEquals(expectedBirthDate, responseRecord.getBirthDate());
+		assertEquals(expectedBirthDate.toLocalDate(), responseRecord.getBirthDate().toLocalDate());
 	}
 
 	/**
