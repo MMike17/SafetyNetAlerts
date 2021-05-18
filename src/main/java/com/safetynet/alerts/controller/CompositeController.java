@@ -15,10 +15,8 @@ import com.safetynet.alerts.service.FireStationService;
 import com.safetynet.alerts.service.MedicalRecordService;
 import com.safetynet.alerts.service.PersonService;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -109,7 +107,7 @@ public class CompositeController {
 	 * @see HouseHoldWithChildren
 	 */
 	@GetMapping("/childAlert")
-	public HouseHoldWithChildren getChildrenAtAdress(@PathVariable("address") final String address) {
+	public HouseHoldWithChildren getChildrenAtAdress(@RequestParam("address") final String address) {
 
 		if (address == null || address == "")
 			throw new InvalidObjectException();
@@ -146,10 +144,10 @@ public class CompositeController {
 	 * @see Person#getPhone()
 	 */
 	@GetMapping("/phoneAlert")
-	public ArrayList<String> getPhoneNumbersForCoveredPeople(@PathVariable("firestation") final Integer stationID) {
+	public ArrayList<String> getPhoneNumbersForCoveredPeople(@RequestParam("firestation") final Integer stationID) {
 
 		if (stationID == null || stationID <= 0)
-			throw new NotImplementedException();
+			throw new InvalidObjectException();
 
 		ArrayList<String> addresses = fireStationService.getAddressesFromStationID(stationID);
 		ArrayList<String> phoneNumbers = new ArrayList<String>();
@@ -190,7 +188,7 @@ public class CompositeController {
 	 * @see MedicalRecord
 	 */
 	@GetMapping("/fire")
-	public FireAlert getPeopleAndStationIDAtAddress(@PathVariable("address") final String address) {
+	public FireAlert getPeopleAndStationIDAtAddress(@RequestParam("address") final String address) {
 
 		if (address == null || address == "")
 			throw new InvalidObjectException();
@@ -249,7 +247,7 @@ public class CompositeController {
 	 * @see MedicalRecord
 	 */
 	@GetMapping("/flood/stations")
-	public ArrayList<HouseHold> getHouseHoldsCoveredByStations(@PathVariable("stations") final Integer[] stationIDs) {
+	public ArrayList<HouseHold> getHouseHoldsCoveredByStations(@RequestParam("stations") final Integer[] stationIDs) {
 
 		if (stationIDs == null || stationIDs.length <= 0)
 			throw new InvalidObjectException();
@@ -305,8 +303,8 @@ public class CompositeController {
 	 * @see MedicalRecord
 	 */
 	@GetMapping("/personInfo")
-	public ArrayList<FullPerson> getFullInfoFromName(@PathVariable("firstName") final String firstName,
-			@PathVariable("lastName") final String lastName) {
+	public ArrayList<FullPerson> getFullInfoFromName(@RequestParam("firstName") final String firstName,
+			@RequestParam("lastName") final String lastName) {
 
 		if (firstName == null || firstName == "" || lastName == null || lastName == "")
 			throw new InvalidObjectException();
@@ -339,7 +337,7 @@ public class CompositeController {
 	 * @see Person
 	 */
 	@GetMapping("communityEmail")
-	public ArrayList<String> getEmailsOfPeopleInCity(@PathVariable("city") final String cityName) {
+	public ArrayList<String> getEmailsOfPeopleInCity(@RequestParam("city") final String cityName) {
 
 		if (cityName == null || cityName == "")
 			throw new InvalidObjectException();
