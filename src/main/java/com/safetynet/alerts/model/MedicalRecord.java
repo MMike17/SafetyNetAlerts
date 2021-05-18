@@ -64,4 +64,44 @@ public class MedicalRecord {
 
 		return true;
 	}
+
+	/**
+	 * Alternative of the "equals" method to say if objects contain the same
+	 * informations
+	 */
+	public boolean compare(MedicalRecord record) {
+
+		if (!firstName.equals(record.getFirstName()))
+			return false;
+
+		if (!lastName.equals(record.getLastName()))
+			return false;
+
+		if (!birthDate.toLocalDate().equals(record.getBirthDate().toLocalDate()))
+			return false;
+
+		if (allergies.length != record.getAllergies().length)
+			return false;
+		else {
+
+			for (int i = 0; i < allergies.length; i++) {
+
+				if (!allergies[i].equals(record.getAllergies()[i]))
+					return false;
+			}
+		}
+
+		if (medications.length != record.getMedications().length)
+			return false;
+		else {
+
+			for (int i = 0; i < medications.length; i++) {
+
+				if (!medications[i].equals(record.getMedications()[i]))
+					return false;
+			}
+		}
+
+		return true;
+	}
 }
