@@ -57,7 +57,7 @@ public class TestDataGenerator {
 
 		MedicalRecord testRecord = new MedicalRecord("Test", "TEST");
 		testRecord.setId(Long.valueOf(0));
-		testRecord.setBirthDate(new Date(645400800000L));
+		testRecord.setBirthDate(new Date(System.currentTimeMillis()));
 		testRecord.setMedications(new String[] { "test" });
 		testRecord.setAllergies(new String[] { "test" });
 
