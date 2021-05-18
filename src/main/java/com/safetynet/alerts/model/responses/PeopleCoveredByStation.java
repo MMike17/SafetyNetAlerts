@@ -29,6 +29,10 @@ public class PeopleCoveredByStation implements Serializable {
 		adultsCount = coveredPeople.size() - childrenCount;
 	}
 
+	public PeopleCoveredByStation() {
+		coveredPeople = new ArrayList<Person>();
+	}
+
 	public boolean compare(PeopleCoveredByStation other) {
 
 		if (adultsCount != other.adultsCount)

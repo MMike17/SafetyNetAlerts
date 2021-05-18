@@ -26,4 +26,10 @@ public class HouseHoldWithChildren {
 		this.children = children;
 		this.adults = adults;
 	}
+
+	public HouseHoldWithChildren() {
+
+		children = new ArrayList<FullPerson>();
+		adults = new ArrayList<Person>();
+	}
 }
