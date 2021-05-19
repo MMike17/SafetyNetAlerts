@@ -113,7 +113,7 @@ public class MedicalRecordServiceIT {
 		if (!succeeded)
 			fail("The repository failed to delete the data");
 
-		assertEquals(expectedCount, repository.count());
+		assertEquals((long) expectedCount, (long) repository.count());
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class MedicalRecordServiceIT {
 	 * @see MedicalRecordService#getRecordForPerson(Person)
 	 */
 	@Test
-	void testGetRecordForValidPerson() {
+	public void testGetRecordForValidPerson() {
 
 		// GIVEN
 		MedicalRecord expectedRecord = dataGenerator.generateTestRecord();
@@ -148,7 +148,7 @@ public class MedicalRecordServiceIT {
 	 * @see MedicalRecordService#getRecordForPerson(Person)
 	 */
 	@Test
-	void testGetRecordForInvalidPerson() {
+	public void testGetRecordForInvalidPerson() {
 
 		// GIVEN
 		MedicalRecord testRecord = dataGenerator.generateTestRecord();

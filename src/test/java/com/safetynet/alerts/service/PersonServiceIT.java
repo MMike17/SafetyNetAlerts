@@ -51,7 +51,7 @@ public class PersonServiceIT {
 	 * @see PersonService#addPerson(Person)
 	 */
 	@Test
-	void testPersonSave() {
+	public void testPersonSave() {
 
 		// GIVEN
 		Person testPerson = dataGenerator.generateTestPerson();
@@ -74,7 +74,7 @@ public class PersonServiceIT {
 	 * @see PersonService#updatePersonProfile(Person)
 	 */
 	@Test
-	void testPersonUpdate() {
+	public void testPersonUpdate() {
 
 		// GIVEN
 		String expectedCity = "Paris";
@@ -94,7 +94,7 @@ public class PersonServiceIT {
 	 * @see PersonService#removePerson(String, String)
 	 */
 	@Test
-	void testPersonDelete() {
+	public void testPersonDelete() {
 
 		// GIVEN
 		Person testPerson = repository.save(dataGenerator.generateTestPerson());
@@ -111,7 +111,7 @@ public class PersonServiceIT {
 		if (!succeeded)
 			fail("The repository failed to delete the data");
 
-		assertEquals(expectedCount, repository.count());
+		assertEquals((long) expectedCount, (long) repository.count());
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleAtAddress(String)
 	 */
 	@Test
-	void testGetPeopleAtValidAddress() {
+	public void testGetPeopleAtValidAddress() {
 
 		// GIVEN
 		ArrayList<Person> expectedPeople = new ArrayList<Person>();
@@ -149,7 +149,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleAtAddress(String)
 	 */
 	@Test
-	void testGetPeopleAtInvalidAddress() {
+	public void testGetPeopleAtInvalidAddress() {
 
 		// GIVEN
 		repository.save(dataGenerator.generateTestPerson());
@@ -170,7 +170,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleFromName(String, String)
 	 */
 	@Test
-	void testGetPeopleFromValidFirstAndLastName() {
+	public void testGetPeopleFromValidFirstAndLastName() {
 
 		// GIVEN
 		ArrayList<Person> expectedPeople = new ArrayList<Person>();
@@ -199,7 +199,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleFromName(String, String)
 	 */
 	@Test
-	void testGetPeopleFromInvalidFirstAndLastName() {
+	public void testGetPeopleFromInvalidFirstAndLastName() {
 
 		// GIVEN
 		repository.save(dataGenerator.generateTestPerson());
@@ -220,7 +220,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleFromCity(String)
 	 */
 	@Test
-	void testGetPeopleFromValidCity() {
+	public void testGetPeopleFromValidCity() {
 
 		// GIVEN
 		ArrayList<Person> expectedPeople = new ArrayList<Person>();
@@ -248,7 +248,7 @@ public class PersonServiceIT {
 	 * @see PersonService#getPeopleFromCity(String)
 	 */
 	@Test
-	void testGetPeopleFromInvalidCity() {
+	public void testGetPeopleFromInvalidCity() {
 
 		// GIVEN
 		repository.save(dataGenerator.generateTestPerson());

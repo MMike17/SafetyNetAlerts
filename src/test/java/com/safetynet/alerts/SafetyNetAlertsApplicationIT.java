@@ -21,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author MikeMatthews
  */
 @SpringBootTest
-class SafetyNetAlertsApplicationIT {
+public class SafetyNetAlertsApplicationIT {
 
 	static SafetyNetAlertsApplication testedApplication;
 	static LocalDataReader reader;
@@ -46,14 +46,14 @@ class SafetyNetAlertsApplicationIT {
 	 * Tests if the SpringBoot context is loaded correctly
 	 */
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 	/**
 	 * Tests if the app injects local data in the database at startup
 	 */
 	@Test
-	void testInjectsLocalDataInDatabase() {
+	public void testInjectsLocalDataInDatabase() {
 
 		LocalData localData = reader.readFile();
 		long expectedPersonCount = localData.persons.length;

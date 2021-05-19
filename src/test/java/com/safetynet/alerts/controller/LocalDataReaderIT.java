@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author MikeMatthews
  */
 @SpringBootTest
-class LocalDataReaderIT {
+public class LocalDataReaderIT {
 
 	static LocalDataReader testedReader;
 
@@ -33,7 +33,7 @@ class LocalDataReaderIT {
 	 * @see LocalDataReader#readFile()
 	 */
 	@Test
-	void testReaderExtractedValues() {
+	public void testReaderExtractedValues() {
 
 		// GIVEN
 		LocalData localData = null;

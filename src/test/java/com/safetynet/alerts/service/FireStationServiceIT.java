@@ -108,7 +108,7 @@ public class FireStationServiceIT {
 		testedService.removeFireStation(testStation.getId());
 
 		// THEN
-		assertEquals(expectedCount, repository.count());
+		assertEquals((long) expectedCount, (long) repository.count());
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class FireStationServiceIT {
 	void testGetAddressesFromInvalidStationID() {
 
 		// GIVEN
-		FireStation testStation1 = repository.save(dataGenerator.generateTestStation());
+		repository.save(dataGenerator.generateTestStation());
 
 		FireStation testStation2 = dataGenerator.generateTestStation();
 		testStation2.setAddress("Y Test road");
