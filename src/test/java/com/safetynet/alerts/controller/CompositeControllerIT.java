@@ -6,8 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.TestDataGenerator;
 import com.safetynet.alerts.model.FireStation;
@@ -55,6 +58,7 @@ public class CompositeControllerIT {
 
 	TestDataGenerator dataGenerator = new TestDataGenerator();
 	ObjectMapper jsonMapper = new ObjectMapper();
+	ZoneId zoneId = ZoneId.of("Europe/Paris");
 
 	@BeforeEach
 	void setUpPerTest() {
@@ -67,7 +71,7 @@ public class CompositeControllerIT {
 	/**
 	 * Tests Get request on url "/firestation?stationNumber" with valid object
 	 * 
-	 * @see CompositeController#getPeopleAndStationIDAtAddress(String)
+	 * @see CompositeController#getPersonsCoveredByStation(Integer)
 	 * @see PeopleCoveredByStation
 	 */
 	@Test
@@ -83,15 +87,18 @@ public class CompositeControllerIT {
 		PeopleCoveredByStation resultObject = jsonMapper.readValue(stringResult, PeopleCoveredByStation.class);
 
 		// THEN
-		if (!testData.compare(resultObject))
-			fail("expected " + testData + " but result was " + resultObject);
+		if (!testData.compare(resultObject)) {
+
+			fail("Test data and expecteed data was not the same\n(stopped on expected :" + testData + " / result : "
+					+ resultObject);
+		}
 	}
 
 	/**
 	 * Tests Get request on url "/firestation?stationNumber" with invalid object
 	 * 
-	 * @see CompositeController#getPeopleAndStationIDAtAddress(String)
-	 * @see PersonCoveredByStation
+	 * @see CompositeController#getPersonsCoveredByStation(Integer)
+	 * @see PeopleCoveredByStation
 	 */
 	@Test
 	public void testGetPersonsCoveredByInvalidStation() throws Exception {
@@ -119,7 +126,11 @@ public class CompositeControllerIT {
 		HouseHoldWithChildren resultObject = jsonMapper.readValue(resultString, HouseHoldWithChildren.class);
 
 		// THEN
-		assertEquals(testData, resultObject);
+		if (!testData.compare(resultObject)) {
+
+			fail("Test data and expecteed data was not the same\n(stopped on expected :" + testData + " / result : "
+					+ resultObject);
+		}
 	}
 
 	/**
@@ -131,7 +142,7 @@ public class CompositeControllerIT {
 	@Test
 	public void testGetChildrenAtInvalidAddress() throws Exception {
 
-		mockMvc.perform(get("/childAlert?adress=")).andExpect(status().isNotAcceptable());
+		mockMvc.perform(get("/childAlert?adress=")).andExpect(status().isBadRequest());
 	}
 
 	/**
@@ -149,7 +160,8 @@ public class CompositeControllerIT {
 		MvcResult result = mockMvc.perform(get("/phoneAlert?firestation=1")).andExpect(status().isOk()).andReturn();
 
 		String resultString = result.getResponse().getContentAsString();
-		ArrayList<String> resultArray = jsonMapper.readValue(resultString, ArrayList.class);
+		ArrayList<String> resultArray = jsonMapper.readValue(resultString, new TypeReference<ArrayList<String>>() {
+		});
 
 		// THEN
 		assertEquals(expectedPhoneNumbers, resultArray);
@@ -184,7 +196,11 @@ public class CompositeControllerIT {
 		FireAlert resultFireAlert = jsonMapper.readValue(resultString, FireAlert.class);
 
 		// THEN
-		assertEquals(expectedFireAlert, resultFireAlert);
+		if (!expectedFireAlert.compare(resultFireAlert)) {
+
+			fail("Test data and expecteed data was not the same\n(stopped on expected :" + expectedFireAlert
+					+ " / result : " + resultFireAlert);
+		}
 	}
 
 	/**
@@ -213,10 +229,19 @@ public class CompositeControllerIT {
 		MvcResult result = mockMvc.perform(get("/flood/stations?stations=1")).andExpect(status().isOk()).andReturn();
 
 		String stringResult = result.getResponse().getContentAsString();
-		ArrayList<HouseHold> resultHouseHolds = jsonMapper.readValue(stringResult, ArrayList.class);
+		ArrayList<HouseHold> resultHouseHolds = jsonMapper.readValue(stringResult,
+				new TypeReference<ArrayList<HouseHold>>() {
+				});
 
 		// THEN
-		assertEquals(expectedHouseHold, resultHouseHolds);
+		for (int i = 0; i < expectedHouseHold.size(); i++) {
+
+			if (!expectedHouseHold.get(i).compare(resultHouseHolds.get(i))) {
+
+				fail("Test data and expecteed data was not the same\n(stopped on expected :" + expectedHouseHold.get(i)
+						+ " / result : " + resultHouseHolds.get(i));
+			}
+		}
 	}
 
 	/**
@@ -246,10 +271,19 @@ public class CompositeControllerIT {
 				.andExpect(status().isOk()).andReturn();
 
 		String stringResult = result.getResponse().getContentAsString();
-		ArrayList<FullPerson> resultPeople = jsonMapper.readValue(stringResult, ArrayList.class);
+		ArrayList<FullPerson> resultPeople = jsonMapper.readValue(stringResult,
+				new TypeReference<ArrayList<FullPerson>>() {
+				});
 
 		// THEN
-		assertEquals(expectedPeople, resultPeople);
+		for (int i = 0; i < expectedPeople.size(); i++) {
+
+			if (!expectedPeople.get(i).compare(resultPeople.get(i))) {
+
+				fail("Test data and expecteed data was not the same\n(stopped on expected :" + expectedPeople.get(i)
+						+ " / result : " + resultPeople.get(i));
+			}
+		}
 	}
 
 	/**
@@ -278,7 +312,8 @@ public class CompositeControllerIT {
 		MvcResult result = mockMvc.perform(get("/communityEmail?city=CITY1")).andExpect(status().isOk()).andReturn();
 
 		String stringResult = result.getResponse().getContentAsString();
-		ArrayList<String> resultEmails = jsonMapper.readValue(stringResult, ArrayList.class);
+		ArrayList<String> resultEmails = jsonMapper.readValue(stringResult, new TypeReference<ArrayList<String>>() {
+		});
 
 		// THEN
 		assertEquals(expectedEmails, resultEmails);
@@ -320,11 +355,11 @@ public class CompositeControllerIT {
 		ArrayList<FullPerson> children = new ArrayList<FullPerson>();
 
 		Person[] testPeople = injectTestPeople();
-		MedicalRecord[] testRecords = injectTestRecords(testPeople);
+		injectTestRecords(testPeople);
 
 		if (checkedAddress == "TestAddress1") {
 
-			children.add(new FullPerson(testPeople[1], testRecords[1], 11));
+			children.add(new FullPerson(testPeople[1], null, 11));
 
 			adults.add(testPeople[0]);
 			adults.add(testPeople[2]);
@@ -332,8 +367,8 @@ public class CompositeControllerIT {
 
 		if (checkedAddress == "TestAddress2") {
 
-			children.add(new FullPerson(testPeople[3], testRecords[3], 16));
-			children.add(new FullPerson(testPeople[4], testRecords[4], 3));
+			children.add(new FullPerson(testPeople[3], null, 16));
+			children.add(new FullPerson(testPeople[4], null, 3));
 
 			adults.add(testPeople[5]);
 		}
@@ -352,11 +387,11 @@ public class CompositeControllerIT {
 
 		if (checkedAddress == "TestAddress1") {
 
-			selectedPeople.add(new FullPerson(testPeople[0], testRecord[0], 21));
+			selectedPeople.add(new FullPerson(testPeople[0], testRecord[0], 31));
 			selectedPeople.add(new FullPerson(testPeople[1], testRecord[1], 11));
-			selectedPeople.add(new FullPerson(testPeople[2], testRecord[2], 28));
+			selectedPeople.add(new FullPerson(testPeople[2], testRecord[2], 38));
 
-			selectedStation = 0;
+			selectedStation = 1;
 		}
 
 		if (checkedAddress == "TestAddress2") {
@@ -365,7 +400,7 @@ public class CompositeControllerIT {
 			selectedPeople.add(new FullPerson(testPeople[4], testRecord[4], 3));
 			selectedPeople.add(new FullPerson(testPeople[5], testRecord[5], 61));
 
-			selectedStation = 1;
+			selectedStation = 2;
 		}
 
 		return new FireAlert(selectedStation, selectedPeople);
@@ -407,11 +442,12 @@ public class CompositeControllerIT {
 
 			ArrayList<FullPerson> inhabitants = new ArrayList<FullPerson>();
 
-			inhabitants.add(new FullPerson(testPeople[0], testRecords[0], 21));
+			inhabitants.add(new FullPerson(testPeople[0], testRecords[0], 31));
 			inhabitants.add(new FullPerson(testPeople[1], testRecords[1], 11));
-			inhabitants.add(new FullPerson(testPeople[2], testRecords[2], 28));
+			inhabitants.add(new FullPerson(testPeople[2], testRecords[2], 38));
 
 			houseHolds.add(new HouseHold(checkedAddress, inhabitants));
+			houseHolds.add(new HouseHold("TestAddress3", new ArrayList<FullPerson>()));
 		}
 
 		if (checkedAddress == "TestAddress2") {
@@ -423,6 +459,7 @@ public class CompositeControllerIT {
 			inhabitants.add(new FullPerson(testPeople[5], testRecords[5], 61));
 
 			houseHolds.add(new HouseHold(checkedAddress, inhabitants));
+			houseHolds.add(new HouseHold("TestAddress4", new ArrayList<FullPerson>()));
 		}
 
 		return houseHolds;
@@ -435,7 +472,7 @@ public class CompositeControllerIT {
 		Person[] testPeople = injectTestPeople();
 		MedicalRecord[] testRecords = injectTestRecords(testPeople);
 
-		selectedPeople.add(new FullPerson(testPeople[0], testRecords[0], 21));
+		selectedPeople.add(new FullPerson(testPeople[0], testRecords[0], 31));
 
 		return selectedPeople;
 	}
@@ -475,9 +512,9 @@ public class CompositeControllerIT {
 		testPerson11.setCity("CITY1");
 
 		Person testPerson12 = dataGenerator.generateTestPerson();
-		testPerson11.setFirstName("test12");
-		testPerson11.setLastName("TEST12");
-		testPerson11.setAddress("TestAddress1");
+		testPerson12.setFirstName("test12");
+		testPerson12.setLastName("TEST12");
+		testPerson12.setAddress("TestAddress1");
 		testPerson12.setPhone("0012");
 		testPerson12.setCity("CITY1");
 
@@ -525,33 +562,33 @@ public class CompositeControllerIT {
 
 		MedicalRecord testRecord11 = dataGenerator.generateTestRecord();
 		testRecord11.setFirstName(people[0].getFirstName());
-		testRecord11.setFirstName(people[0].getLastName());
-		testRecord11.setBirthDate(new Date(1990, 4, 10)); // age 21
+		testRecord11.setLastName(people[0].getLastName());
+		testRecord11.setBirthDate(Date.valueOf(LocalDate.of(1990, 4, 10))); // age 31
 
 		MedicalRecord testRecord12 = dataGenerator.generateTestRecord();
 		testRecord12.setFirstName(people[1].getFirstName());
-		testRecord12.setFirstName(people[1].getLastName());
-		testRecord12.setBirthDate(new Date(2010, 4, 10)); // age 11
+		testRecord12.setLastName(people[1].getLastName());
+		testRecord12.setBirthDate(Date.valueOf(LocalDate.of(2010, 4, 10))); // age 11
 
 		MedicalRecord testRecord13 = dataGenerator.generateTestRecord();
 		testRecord13.setFirstName(people[2].getFirstName());
-		testRecord13.setFirstName(people[2].getLastName());
-		testRecord13.setBirthDate(new Date(1983, 4, 10)); // age 28
+		testRecord13.setLastName(people[2].getLastName());
+		testRecord13.setBirthDate(Date.valueOf(LocalDate.of(1983, 4, 10))); // age 38
 
 		MedicalRecord testRecord21 = dataGenerator.generateTestRecord();
 		testRecord21.setFirstName(people[3].getFirstName());
-		testRecord21.setFirstName(people[3].getLastName());
-		testRecord21.setBirthDate(new Date(2005, 4, 10)); // age 16
+		testRecord21.setLastName(people[3].getLastName());
+		testRecord21.setBirthDate(Date.valueOf(LocalDate.of(2005, 4, 10))); // age 16
 
 		MedicalRecord testRecord22 = dataGenerator.generateTestRecord();
 		testRecord22.setFirstName(people[4].getFirstName());
-		testRecord22.setFirstName(people[4].getLastName());
-		testRecord22.setBirthDate(new Date(2019, 4, 10)); // age 3
+		testRecord22.setLastName(people[4].getLastName());
+		testRecord22.setBirthDate(Date.valueOf(LocalDate.of(2019, 4, 10))); // age 3
 
 		MedicalRecord testRecord23 = dataGenerator.generateTestRecord();
 		testRecord23.setFirstName(people[5].getFirstName());
-		testRecord23.setFirstName(people[5].getLastName());
-		testRecord23.setBirthDate(new Date(1960, 4, 10)); // age 61
+		testRecord23.setLastName(people[5].getLastName());
+		testRecord23.setBirthDate(Date.valueOf(LocalDate.of(1960, 4, 10))); // age 61
 
 		testRecord11 = injectRecord(testRecord11);
 		testRecord12 = injectRecord(testRecord12);
@@ -570,19 +607,19 @@ public class CompositeControllerIT {
 
 		FireStation testStation1 = dataGenerator.generateTestStation();
 		testStation1.setAddress("TestAddress1");
-		testStation1.setStationId(0);
+		testStation1.setStationId(1);
 
 		FireStation testStation2 = dataGenerator.generateTestStation();
 		testStation2.setAddress("TestAddress2");
-		testStation2.setStationId(1);
+		testStation2.setStationId(2);
 
 		FireStation testStation3 = dataGenerator.generateTestStation();
 		testStation3.setAddress("TestAddress3");
-		testStation3.setStationId(0);
+		testStation3.setStationId(1);
 
 		FireStation testStation4 = dataGenerator.generateTestStation();
 		testStation4.setAddress("TestAddress4");
-		testStation4.setStationId(1);
+		testStation4.setStationId(2);
 
 		testStation1 = injectFireStation(testStation1);
 		testStation2 = injectFireStation(testStation2);
