@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.safetynet.alerts.exceptions.InvalidObjectException;
@@ -57,9 +58,8 @@ public class CompositeController {
 	@GetMapping("/firestation")
 	public PeopleCoveredByStation getPersonsCoveredByStation(@RequestParam("stationNumber") final Integer stationID) {
 
-		if (stationID == null || stationID <= 0) {
+		if (stationID == null || stationID <= 0)
 			throw new InvalidObjectException();
-		}
 
 		ArrayList<String> adresses = fireStationService.getAddressesFromStationID(stationID);
 
@@ -71,9 +71,8 @@ public class CompositeController {
 
 		ArrayList<Person> selectedPeople = new ArrayList<Person>();
 
-		for (String adress : adresses) {
+		for (String adress : adresses)
 			selectedPeople.addAll(personService.getPeopleAtAddress(adress));
-		}
 
 		if (selectedPeople.size() <= 0) {
 
@@ -164,9 +163,9 @@ public class CompositeController {
 
 			if (people.size() != 0) {
 
-				for (Person person : people) {
+				for (Person person : people)
 					phoneNumbers.add(person.getPhone());
-				}
+
 			} else
 				System.out.println("Nobody lives at the address : " + address);
 		}
@@ -214,9 +213,11 @@ public class CompositeController {
 			records.add(record);
 		}
 
-		if (missingRecords.size() > 0)
+		if (missingRecords.size() > 0) {
+
 			System.out.println(
 					"The following people don't have any medical records : " + String.join(", ", missingRecords));
+		}
 
 		ArrayList<FullPerson> fullPeople = new ArrayList<FullPerson>();
 
@@ -249,7 +250,7 @@ public class CompositeController {
 	@GetMapping("/flood/stations")
 	public ArrayList<HouseHold> getHouseHoldsCoveredByStations(@RequestParam("stations") final Integer[] stationIDs) {
 
-		if (stationIDs == null || stationIDs.length <= 0)
+		if (stationIDs == null || stationIDs.length <= 0 || stationIDs[0] <= 0)
 			throw new InvalidObjectException();
 
 		ArrayList<HouseHold> selectedHouseHolds = new ArrayList<HouseHold>();
@@ -345,9 +346,8 @@ public class CompositeController {
 		ArrayList<String> emails = new ArrayList<String>();
 		ArrayList<Person> people = personService.getPeopleFromCity(cityName);
 
-		for (Person person : people) {
+		for (Person person : people)
 			emails.add(person.getEmail());
-		}
 
 		return emails;
 	}
@@ -359,14 +359,14 @@ public class CompositeController {
 
 		MedicalRecord record = medicalRecordService.getRecordForPerson(person);
 
-		if (record == null) {
+		if (record == null)
 			return -1;
-		}
 
-		Long currentTime = System.currentTimeMillis();
-		Long totalTime = currentTime - record.getBirthDate().getTime();
-		Date personAge = new Date(totalTime);
+		LocalDate currentDate = new Date(System.currentTimeMillis()).toLocalDate();
+		LocalDate birthDate = record.getBirthDate().toLocalDate();
 
-		return personAge.getYear();
+		int personAge = currentDate.getYear() - birthDate.getYear();
+
+		return personAge;
 	}
 }
