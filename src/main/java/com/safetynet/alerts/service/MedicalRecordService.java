@@ -77,11 +77,16 @@ public class MedicalRecordService {
 		List<MedicalRecord> records = repository.findByFirstNameAndLastName(person.getFirstName(),
 				person.getLastName());
 
-		MedicalRecord resultRecord = null;
+		MedicalRecord record = null;
 
 		if (records != null && records.size() > 0)
-			resultRecord = records.get(0);
+			record = records.get(0);
+		else {
 
-		return resultRecord;
+			System.out.println("Couldn't find medical record for a person with name " + person.getFirstName() + " "
+					+ person.getLastName());
+		}
+
+		return record;
 	}
 }
