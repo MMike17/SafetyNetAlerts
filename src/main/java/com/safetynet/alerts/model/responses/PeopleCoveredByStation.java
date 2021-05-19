@@ -44,9 +44,9 @@ public class PeopleCoveredByStation implements Serializable {
 		if (coveredPeople.size() != other.coveredPeople.size())
 			return false;
 
-		for (int i = 0; i < coveredPeople.size(); i++) {
+		for (Person person : coveredPeople) {
 
-			if (!coveredPeople.get(i).compare(other.coveredPeople.get(i)))
+			if (!other.coveredPeople.contains(person))
 				return false;
 		}
 

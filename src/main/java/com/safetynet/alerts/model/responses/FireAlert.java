@@ -22,4 +22,26 @@ public class FireAlert {
 		this.correspondingStationID = correspondingStationID;
 		this.inhabitants = inhabitants;
 	}
+
+	public FireAlert() {
+
+	}
+
+	public boolean compare(FireAlert other) {
+
+		if (correspondingStationID != other.getCorrespondingStationID())
+			return false;
+
+		if (inhabitants.size() != other.getInhabitants().size())
+			return false;
+		else {
+
+			for (int i = 0; i < inhabitants.size(); i++) {
+
+				if (!inhabitants.get(i).compare(other.getInhabitants().get(i)))
+					return false;
+			}
+		}
+		return true;
+	}
 }

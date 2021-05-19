@@ -26,4 +26,23 @@ public class FullPerson {
 		this.medicalRecord = medicalRecord;
 		this.age = age;
 	}
+
+	public FullPerson() {
+
+	}
+
+	public boolean compare(FullPerson other) {
+
+		if (!person.compare(other.getPerson()))
+			return false;
+
+		if (medicalRecord != null && other.getMedicalRecord() != null
+				&& !medicalRecord.compare(other.getMedicalRecord()))
+			return false;
+
+		if (age != other.getAge())
+			return false;
+
+		return true;
+	}
 }

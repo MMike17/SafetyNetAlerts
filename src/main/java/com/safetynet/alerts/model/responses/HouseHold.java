@@ -22,4 +22,25 @@ public class HouseHold {
 		this.address = address;
 		this.people = people;
 	}
+
+	public HouseHold() {
+
+	}
+
+	public boolean compare(HouseHold other) {
+
+		if (!address.equals(other.getAddress()))
+			return false;
+
+		if (people.size() != other.getPeople().size())
+			return false;
+
+		for (int i = 0; i < people.size(); i++) {
+
+			if (!other.getPeople().get(i).compare(people.get(i)))
+				return false;
+		}
+
+		return true;
+	}
 }

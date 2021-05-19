@@ -89,25 +89,25 @@ public class Person {
 	@JsonIgnore
 	public boolean compare(Person other) {
 
-		if (firstName != other.firstName)
+		if (!firstName.equals(other.firstName))
 			return false;
 
-		if (lastName != other.lastName)
+		if (!lastName.equals(other.lastName))
 			return false;
 
-		if (address != other.address)
+		if (!address.equals(other.address))
 			return false;
 
-		if (city != other.city)
+		if (!city.equals(other.city))
 			return false;
 
 		if (zipCode != other.zipCode)
 			return false;
 
-		if (phone != other.phone)
+		if (!phone.equals(other.phone))
 			return false;
 
-		if (email != other.email)
+		if (!email.equals(other.email))
 			return false;
 
 		return true;
