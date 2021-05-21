@@ -17,6 +17,7 @@ import com.safetynet.alerts.service.MedicalRecordService;
 import com.safetynet.alerts.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -108,7 +109,7 @@ public class CompositeController {
 	@GetMapping("/childAlert")
 	public HouseHoldWithChildren getChildrenAtAdress(@RequestParam("address") final String address) {
 
-		if (address == null || address == "")
+		if (!StringUtils.hasText(address))
 			throw new InvalidObjectException();
 
 		ArrayList<Person> inhabitants = personService.getPeopleAtAddress(address);
@@ -189,7 +190,7 @@ public class CompositeController {
 	@GetMapping("/fire")
 	public FireAlert getPeopleAndStationIDAtAddress(@RequestParam("address") final String address) {
 
-		if (address == null || address == "")
+		if (!StringUtils.hasText(address))
 			throw new InvalidObjectException();
 
 		ArrayList<Person> people = personService.getPeopleAtAddress(address);
@@ -307,7 +308,7 @@ public class CompositeController {
 	public ArrayList<FullPerson> getFullInfoFromName(@RequestParam("firstName") final String firstName,
 			@RequestParam("lastName") final String lastName) {
 
-		if (firstName == null || firstName == "" || lastName == null || lastName == "")
+		if (!StringUtils.hasText(firstName) || !StringUtils.hasText(firstName))
 			throw new InvalidObjectException();
 
 		ArrayList<FullPerson> selectedFullPeople = new ArrayList<FullPerson>();
@@ -340,7 +341,7 @@ public class CompositeController {
 	@GetMapping("communityEmail")
 	public ArrayList<String> getEmailsOfPeopleInCity(@RequestParam("city") final String cityName) {
 
-		if (cityName == null || cityName == "")
+		if (!StringUtils.hasText(cityName))
 			throw new InvalidObjectException();
 
 		ArrayList<String> emails = new ArrayList<String>();
