@@ -1,6 +1,5 @@
 package com.safetynet.alerts.model.responses;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.safetynet.alerts.model.Person;
@@ -15,7 +14,7 @@ import lombok.Data;
  * @author Mike Matthews
  */
 @Data
-public class PeopleCoveredByStation implements Serializable {
+public class PeopleCoveredByStation {
 
 	ArrayList<Person> coveredPeople;
 	int adultsCount;
