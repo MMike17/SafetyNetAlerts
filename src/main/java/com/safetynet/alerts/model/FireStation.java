@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.util.StringUtils;
+
 import lombok.Data;
 
 @Data
@@ -17,7 +19,7 @@ import lombok.Data;
 public class FireStation {
 
 	public FireStation() {
-		
+
 	}
 
 	public FireStation(String address, Integer stationId) {
@@ -42,7 +44,7 @@ public class FireStation {
 	@JsonIgnore
 	public boolean isValid() {
 
-		if (address == null || address == "")
+		if (!StringUtils.hasText(address))
 			return false;
 
 		if (stationId <= -1)

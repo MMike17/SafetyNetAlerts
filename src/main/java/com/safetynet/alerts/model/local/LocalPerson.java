@@ -26,7 +26,7 @@ public class LocalPerson {
 
 		person.setAddress(address);
 		person.setCity(city);
-		person.setZipCode(Integer.valueOf(zip));
+		person.setZipCode(Integer.parseInt(zip));
 		person.setPhone(phone);
 		person.setEmail(email);
 

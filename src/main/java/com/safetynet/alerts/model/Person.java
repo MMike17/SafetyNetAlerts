@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.util.StringUtils;
+
 import lombok.Data;
 
 @Data
@@ -45,7 +47,7 @@ public class Person {
 	String city;
 
 	@Column(name = "zip")
-	Integer zipCode;
+	int zipCode;
 
 	@Column(name = "phone")
 	String phone;
@@ -59,25 +61,25 @@ public class Person {
 	@JsonIgnore
 	public boolean isValid() {
 
-		if (firstName == null || firstName == "")
+		if (!StringUtils.hasText(firstName))
 			return false;
 
-		if (lastName == null || lastName == "")
+		if (!StringUtils.hasText(lastName))
 			return false;
 
-		if (address == null || address == "")
+		if (!StringUtils.hasText(address))
 			return false;
 
-		if (city == null || city == "")
+		if (!StringUtils.hasText(city))
 			return false;
 
 		if (zipCode <= 0)
 			return false;
 
-		if (phone == null || phone == "")
+		if (!StringUtils.hasText(phone))
 			return false;
 
-		if (email == null || email == "")
+		if (!StringUtils.hasText(email))
 			return false;
 
 		return true;

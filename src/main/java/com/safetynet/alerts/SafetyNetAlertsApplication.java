@@ -43,21 +43,19 @@ public class SafetyNetAlertsApplication implements CommandLineRunner {
 		if (data != null)
 			System.out.println("Loaded local data from file");
 		else {
+
 			System.out.println("Failed to load local data");
 			return;
 		}
 
-		for (LocalPerson person : data.persons) {
+		for (LocalPerson person : data.persons)
 			personController.savePerson(person.toPerson());
-		}
 
-		for (LocalFireStation station : data.firestations) {
+		for (LocalFireStation station : data.firestations)
 			fireStationController.saveStation(station.toStation());
-		}
 
-		for (LocalMedicalRecord record : data.medicalrecords) {
+		for (LocalMedicalRecord record : data.medicalrecords)
 			medicalRecordController.saveRecord(record.toRecord());
-		}
 
 		System.out.println("Injected local data in database");
 	}

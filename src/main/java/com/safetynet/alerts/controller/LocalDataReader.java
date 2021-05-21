@@ -32,7 +32,7 @@ public class LocalDataReader {
 	 */
 	public LocalData readFile() {
 
-		LocalData localData = null;
+		LocalData localData = new LocalData();
 		ObjectMapper mapper = new ObjectMapper();
 
 		TypeReference<LocalData> typeReference = new TypeReference<LocalData>() {
@@ -42,13 +42,17 @@ public class LocalDataReader {
 		try {
 			localData = mapper.readValue(inputStream, typeReference);
 		} catch (IOException exception) {
+
 			System.out.println(exception);
+			localData = null;
 		} finally {
 
 			try {
 				inputStream.close();
 			} catch (IOException ioException) {
+
 				System.out.println(ioException);
+				localData = null;
 			}
 		}
 

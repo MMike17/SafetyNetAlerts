@@ -6,6 +6,9 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.util.StringUtils;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Data;
 
 @Data
@@ -16,6 +19,8 @@ import lombok.Data;
  * 
  * @author MikeMatthews
  */
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+		"EI_EXPOSE_REP2" }, justification = "Lombok @Data anotation will always violate best practices")
 public class MedicalRecord {
 
 	public MedicalRecord() {
@@ -53,10 +58,10 @@ public class MedicalRecord {
 	@JsonIgnore
 	public boolean isValid() {
 
-		if (firstName == null || firstName == "")
+		if (!StringUtils.hasText(firstName))
 			return false;
 
-		if (lastName == null || lastName == "")
+		if (!StringUtils.hasText(lastName))
 			return false;
 
 		if (birthDate == null)
