@@ -14,10 +14,10 @@ import lombok.Data;
 @Data
 public class FireAlert {
 
-	Integer correspondingStationID;
+	int correspondingStationID;
 	ArrayList<FullPerson> inhabitants;
 
-	public FireAlert(Integer correspondingStationID, ArrayList<FullPerson> inhabitants) {
+	public FireAlert(int correspondingStationID, ArrayList<FullPerson> inhabitants) {
 
 		this.correspondingStationID = correspondingStationID;
 		this.inhabitants = inhabitants;
@@ -42,6 +42,7 @@ public class FireAlert {
 					return false;
 			}
 		}
+
 		return true;
 	}
 }
