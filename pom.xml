@@ -16,26 +16,11 @@
 	<description>Project 5 Java OpenClassrooms</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-assembly-plugin</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
-		<dependency>
-    		<groupId>com.github.spotbugs</groupId>
-    		<artifactId>spotbugs-maven-plugin</artifactId>
-    		<version>4.2.0</version>
-    		<type>pom</type>
-		</dependency>
-
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -54,23 +39,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.vaadin.external.google</groupId>
+					<artifactId>android-json</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		
+		<!-- Development -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
+		<!-- Testing -->
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
@@ -78,30 +62,28 @@
 			<type>maven-plugin</type>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.2</version>
-			<scope>test</scope>
+    		<groupId>com.github.spotbugs</groupId>
+    		<artifactId>spotbugs-maven-plugin</artifactId>
+    		<version>4.2.0</version>
+    		<type>pom</type>
+		</dependency>
+
+		<!-- Runtime -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.3.2</version>
-			<scope>test</scope>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 	</dependencies>
 
 	<reporting>
 		<plugins>
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.2.3</version>
-				<configuration>
-					<failOnError>false</failOnError>
-				</configuration>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -119,11 +101,28 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.2.3</version>
+				<configuration>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</reporting>
 
 	<build>
 		<plugins>
+
+			<!-- Spring Boot -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- Reporting -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -131,106 +130,41 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.1.1</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>
-										com.safetynet.alerts.SafetyNetAlertsApplication
-									</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.2.0</version>
-				<configuration>
-					<failOnError>false</failOnError>
-					<xmlOutput>true</xmlOutput>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build-info</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.2.0</version>
-					</dependency>
-					<!-- <dependency>
-						<groupId>org.junit.jupiter</groupId>
-						<artifactId>junit-jupiter-engine</artifactId>
-						<version>5.8.0-M1</version>
-					</dependency> -->
-				</dependencies>
 				<executions>
 					<execution>
-						<id>unit-test</id>
+						<id>default-test</id>
 						<goals>
 							<goal>test</goal>
 						</goals>
 						<phase>test</phase>
+						<configuration>
+                    		<includes>
+								<include>*</include>
+                    		</includes>
+                		</configuration>
 					</execution>
 				</executions>
 				<configuration>
-					<useSystemClassLoader>false</useSystemClassLoader>
-					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>${surefireArgLine}</argLine>
-					<includes>
-						<include>*</include>
-					</includes>
-					<!-- <excludes>
-						<exclude>**/*IT.java</exclude>
-					</excludes> -->
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.0</version>
+				<version>3.0.0-M5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<classesdirectory>${project.build.outputDirectory}</classesdirectory>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -243,7 +177,7 @@
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
-							<destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+							<destFile>${project.build.directory}/jacoco.exec</destFile>
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
@@ -254,8 +188,8 @@
                             <goal>report</goal>
                         </goals>
 						<configuration>
-							<dataFile>${project.build.directory}/jacoco-ut.exec</dataFile>
-							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+							<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -278,7 +212,7 @@
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
-							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+							<destFile>${project.build.directory}/jacoco.exec</destFile>
                             <propertyName>failsafeArgLine</propertyName>
                         </configuration>
                     </execution>
@@ -289,8 +223,8 @@
                             <goal>report</goal>
                         </goals>
 						<configuration>
-							<dataFile>${project.build.directory}/jacoco-it.exec</dataFile>
-							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+							<dataFile>${project.build.directory}/jacoco.exec</dataFile>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
 						</configuration>
                     </execution>
 					<execution>
@@ -324,6 +258,7 @@
                     </execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 
