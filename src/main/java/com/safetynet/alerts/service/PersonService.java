@@ -76,15 +76,7 @@ public class PersonService {
 		ArrayList<Person> selectedPeople = new ArrayList<Person>();
 
 		List<Person> people = repository.findByAddress(address);
-
-		boolean isGoodResult = selectedPeople.addAll(people);
-
-		// Backup code if normal code failed
-		if (!isGoodResult) {
-
-			for (Person person : people)
-				selectedPeople.add(person);
-		}
+		selectedPeople.addAll(people);
 
 		return selectedPeople;
 	}
@@ -105,14 +97,7 @@ public class PersonService {
 			return null;
 		}
 
-		boolean isGoodResult = selectedPeople.addAll(people);
-
-		// Backup code if normal code failed
-		if (!isGoodResult) {
-
-			for (Person person : people)
-				selectedPeople.add(person);
-		}
+		selectedPeople.addAll(people);
 
 		return selectedPeople;
 	}
