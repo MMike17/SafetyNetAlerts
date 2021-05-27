@@ -10,9 +10,6 @@ import com.safetynet.alerts.repository.FireStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.Data;
-
-@Data
 @Service
 public class FireStationService {
 

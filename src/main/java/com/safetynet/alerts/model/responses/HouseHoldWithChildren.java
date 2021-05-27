@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.safetynet.alerts.model.Person;
 
-import lombok.Data;
-
 /**
  * Class used to return list of children and adults at the provided adress
  * 
@@ -13,7 +11,6 @@ import lombok.Data;
  * 
  * @author Mike Matthews
  */
-@Data
 public class HouseHoldWithChildren {
 
 	String address;
@@ -31,6 +28,30 @@ public class HouseHoldWithChildren {
 
 		children = new ArrayList<FullPerson>();
 		adults = new ArrayList<Person>();
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public ArrayList<FullPerson> getChildren() {
+		return this.children;
+	}
+
+	public void setChildren(ArrayList<FullPerson> children) {
+		this.children = children;
+	}
+
+	public ArrayList<Person> getAdults() {
+		return this.adults;
+	}
+
+	public void setAdults(ArrayList<Person> adults) {
+		this.adults = adults;
 	}
 
 	public boolean compare(HouseHoldWithChildren other) {

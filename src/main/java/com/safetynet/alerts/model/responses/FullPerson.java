@@ -3,8 +3,6 @@ package com.safetynet.alerts.model.responses;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
-import lombok.Data;
-
 /**
  * Class used to model a full person (Person, age, MedicalRecord)
  * 
@@ -13,7 +11,6 @@ import lombok.Data;
  * 
  * @author Mike Matthews
  */
-@Data
 public class FullPerson {
 
 	Person person;
@@ -29,6 +26,30 @@ public class FullPerson {
 
 	public FullPerson() {
 
+	}
+
+	public Person getPerson() {
+		return this.person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public MedicalRecord getMedicalRecord() {
+		return this.medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+
+	public int getAge() {
+		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public boolean compare(FullPerson other) {

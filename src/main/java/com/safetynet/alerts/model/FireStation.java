@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.util.StringUtils;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = "fireStation")
 /**
@@ -25,6 +22,30 @@ public class FireStation {
 	public FireStation(String address, Integer stationId) {
 
 		this.address = address;
+		this.stationId = stationId;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Integer getStationId() {
+		return this.stationId;
+	}
+
+	public void setStationId(Integer stationId) {
 		this.stationId = stationId;
 	}
 

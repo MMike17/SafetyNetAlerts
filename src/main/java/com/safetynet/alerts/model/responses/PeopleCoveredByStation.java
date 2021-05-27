@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.safetynet.alerts.model.Person;
 
-import lombok.Data;
-
 /**
  * Class used to return list of people and count of adults and children
  * 
@@ -13,7 +11,6 @@ import lombok.Data;
  * 
  * @author Mike Matthews
  */
-@Data
 public class PeopleCoveredByStation {
 
 	ArrayList<Person> coveredPeople;
@@ -32,6 +29,30 @@ public class PeopleCoveredByStation {
 		coveredPeople = new ArrayList<Person>();
 	}
 
+	public ArrayList<Person> getCoveredPeople() {
+		return this.coveredPeople;
+	}
+
+	public void setCoveredPeople(ArrayList<Person> coveredPeople) {
+		this.coveredPeople = coveredPeople;
+	}
+
+	public int getAdultsCount() {
+		return this.adultsCount;
+	}
+
+	public void setAdultsCount(int adultsCount) {
+		this.adultsCount = adultsCount;
+	}
+
+	public int getChildrenCount() {
+		return this.childrenCount;
+	}
+
+	public void setChildrenCount(int childrenCount) {
+		this.childrenCount = childrenCount;
+	}
+
 	public boolean compare(PeopleCoveredByStation other) {
 
 		if (adultsCount != other.adultsCount)
@@ -43,9 +64,9 @@ public class PeopleCoveredByStation {
 		if (coveredPeople.size() != other.coveredPeople.size())
 			return false;
 
-		for (Person person : coveredPeople) {
+		for (int i = 0; i < coveredPeople.size(); i++) {
 
-			if (!other.coveredPeople.contains(person))
+			if (!coveredPeople.get(i).compare(other.coveredPeople.get(i)))
 				return false;
 		}
 

@@ -2,8 +2,6 @@ package com.safetynet.alerts.model.responses;
 
 import java.util.ArrayList;
 
-import lombok.Data;
-
 /**
  * Class used to model a complete household with all informations
  * 
@@ -11,7 +9,6 @@ import lombok.Data;
  * 
  * @author Mike Matthews
  */
-@Data
 public class HouseHold {
 
 	String address;
@@ -25,6 +22,22 @@ public class HouseHold {
 
 	public HouseHold() {
 
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public ArrayList<FullPerson> getPeople() {
+		return this.people;
+	}
+
+	public void setPeople(ArrayList<FullPerson> people) {
+		this.people = people;
 	}
 
 	public boolean compare(HouseHold other) {

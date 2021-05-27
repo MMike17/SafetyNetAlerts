@@ -46,13 +46,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<!-- Development -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<!-- Testing -->
 		<dependency>
@@ -140,6 +133,10 @@
 						</goals>
 						<phase>test</phase>
 						<configuration>
+							<!-- To run a clean "verify" -->
+							<!-- <excludes>
+								<exclude>**/*IT.java</exclude>
+							</excludes> -->
                     		<includes>
 								<include>*</include>
                     		</includes>

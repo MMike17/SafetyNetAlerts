@@ -2,8 +2,6 @@ package com.safetynet.alerts.model.responses;
 
 import java.util.ArrayList;
 
-import lombok.Data;
-
 /**
  * Class used to model the information necessary for a fire alert
  * 
@@ -11,7 +9,6 @@ import lombok.Data;
  * 
  * @author Mike Matthews
  */
-@Data
 public class FireAlert {
 
 	int correspondingStationID;
@@ -25,6 +22,22 @@ public class FireAlert {
 
 	public FireAlert() {
 
+	}
+
+	public int getCorrespondingStationID() {
+		return this.correspondingStationID;
+	}
+
+	public void setCorrespondingStationID(int correspondingStationID) {
+		this.correspondingStationID = correspondingStationID;
+	}
+
+	public ArrayList<FullPerson> getInhabitants() {
+		return this.inhabitants;
+	}
+
+	public void setInhabitants(ArrayList<FullPerson> inhabitants) {
+		this.inhabitants = inhabitants;
 	}
 
 	public boolean compare(FireAlert other) {
