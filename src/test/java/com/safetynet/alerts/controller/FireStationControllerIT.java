@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -58,7 +59,9 @@ public class FireStationControllerIT {
 		if (testData.getId() != responseStation.getId())
 			testData.setId(responseStation.getId());
 
-		assertEquals(testData, responseStation);
+		if (!testData.getAddress().equals(responseStation.getAddress())
+				|| !testData.getStationId().equals(responseStation.getStationId()))
+			fail("Expected test data and result to be the same but they were not");
 	}
 
 	/**

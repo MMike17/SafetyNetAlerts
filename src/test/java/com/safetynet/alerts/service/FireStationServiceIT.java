@@ -65,7 +65,9 @@ public class FireStationServiceIT {
 		if (!resultStation.isPresent())
 			fail("The test data was not saved but the repository said the data was saved");
 
-		assertEquals(testStation, resultStation.get());
+		if (!testStation.getAddress().equals(resultStation.get().getAddress())
+				|| !testStation.getStationId().equals(resultStation.get().getStationId()))
+			fail("Expected test data and result to be the same but they were not");
 	}
 
 	/**

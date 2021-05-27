@@ -65,7 +65,8 @@ public class PersonServiceIT {
 		if (!resultPerson.isPresent())
 			fail("The test data was not saved, but the repository said the data was saved");
 
-		assertEquals(testPerson, resultPerson.get());
+		if (!testPerson.compare(resultPerson.get()))
+			fail("Expected test data and result to be the same but they were not");
 	}
 
 	/**
@@ -126,7 +127,6 @@ public class PersonServiceIT {
 		ArrayList<Person> expectedPeople = new ArrayList<Person>();
 
 		Person testPerson1 = repository.save(dataGenerator.generateTestPerson());
-
 		Person testPerson2 = repository.save(dataGenerator.generateTestPerson());
 
 		Person testPerson3 = dataGenerator.generateTestPerson();
@@ -140,7 +140,11 @@ public class PersonServiceIT {
 		ArrayList<Person> resultPeople = testedService.getPeopleAtAddress("X Test road");
 
 		// THEN
-		assertEquals(expectedPeople, resultPeople);
+		for (int i = 0; i < expectedPeople.size(); i++) {
+
+			if (!expectedPeople.get(i).compare(resultPeople.get(i)))
+				fail("Expected test data and result to be the same but they were not");
+		}
 	}
 
 	/**
@@ -190,7 +194,11 @@ public class PersonServiceIT {
 		ArrayList<Person> resultPeople = testedService.getPeopleFromName("Test", "TEST");
 
 		// THEN
-		assertEquals(expectedPeople, resultPeople);
+		for (int i = 0; i < expectedPeople.size(); i++) {
+
+			if (!expectedPeople.get(i).compare(resultPeople.get(i)))
+				fail("Expected test data and result to be the same but they were not");
+		}
 	}
 
 	/**
@@ -239,7 +247,11 @@ public class PersonServiceIT {
 		ArrayList<Person> resultPeople = testedService.getPeopleFromCity("Test city");
 
 		// THEN
-		assertEquals(expectedPeople, resultPeople);
+		for (int i = 0; i < expectedPeople.size(); i++) {
+
+			if (!expectedPeople.get(i).compare(resultPeople.get(i)))
+				fail("Expected test data and result to be the same but they were not");
+		}
 	}
 
 	/**
