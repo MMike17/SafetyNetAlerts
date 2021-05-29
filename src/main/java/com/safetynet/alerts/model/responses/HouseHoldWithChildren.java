@@ -13,10 +13,6 @@ import com.safetynet.alerts.model.Person;
  */
 public class HouseHoldWithChildren {
 
-	String address;
-	ArrayList<FullPerson> children;
-	ArrayList<Person> adults;
-
 	public HouseHoldWithChildren(String address, ArrayList<FullPerson> children, ArrayList<Person> adults) {
 
 		this.address = address;
@@ -29,6 +25,10 @@ public class HouseHoldWithChildren {
 		children = new ArrayList<FullPerson>();
 		adults = new ArrayList<Person>();
 	}
+
+	String address;
+	ArrayList<FullPerson> children;
+	ArrayList<Person> adults;
 
 	public String getAddress() {
 		return this.address;

@@ -11,9 +11,6 @@ import java.util.ArrayList;
  */
 public class HouseHold {
 
-	String address;
-	ArrayList<FullPerson> people;
-
 	public HouseHold(String address, ArrayList<FullPerson> people) {
 
 		this.address = address;
@@ -23,6 +20,9 @@ public class HouseHold {
 	public HouseHold() {
 
 	}
+
+	String address;
+	ArrayList<FullPerson> people;
 
 	public String getAddress() {
 		return this.address;

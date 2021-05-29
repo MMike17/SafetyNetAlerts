@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Repository class to access MedicalRecord objects in database
  * 
- * @author MikeMatthews
  * @see MedicalRecord
+ * 
+ * @author MikeMatthews
  */
 @Repository
 public interface MedicalRecordRepository extends CrudRepository<MedicalRecord, Long> {

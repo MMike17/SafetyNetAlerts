@@ -7,7 +7,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 /**
  * Class modeling medical record from local data file
  * 
- * @see com.safetynet.alerts.controller.LocalDataReader
+ * @see LocalDataReader
  * @see MedicalRecord
  * 
  * @author MikeMatthews

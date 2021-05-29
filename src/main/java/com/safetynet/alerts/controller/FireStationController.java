@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller class to receive requests regarding the FireStations
  * 
  * @see FireStationService
+ * @see FireStation
  * 
  * @author Mike Matthews
  */

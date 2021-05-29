@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller class to receive requests regarding the Person object
  * 
  * @see PersonService
+ * @see Person
  * 
  * @author Mike Matthews
  */

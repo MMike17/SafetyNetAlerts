@@ -25,6 +25,16 @@ public class FireStation {
 		this.stationId = stationId;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+
+	@Column(name = "address")
+	String address;
+
+	@Column(name = "station")
+	Integer stationId;
+
 	public Long getId() {
 		return this.id;
 	}
@@ -48,16 +58,6 @@ public class FireStation {
 	public void setStationId(Integer stationId) {
 		this.stationId = stationId;
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-
-	@Column(name = "address")
-	String address;
-
-	@Column(name = "station")
-	Integer stationId;
 
 	/**
 	 * Returns true if the object doesn't have null important fields

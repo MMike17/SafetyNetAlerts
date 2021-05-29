@@ -13,10 +13,6 @@ import com.safetynet.alerts.model.Person;
  */
 public class PeopleCoveredByStation {
 
-	ArrayList<Person> coveredPeople;
-	int adultsCount;
-	int childrenCount;
-
 	public PeopleCoveredByStation(ArrayList<Person> coveredPeople, int childrenCount) {
 
 		this.coveredPeople = coveredPeople;
@@ -28,6 +24,10 @@ public class PeopleCoveredByStation {
 	public PeopleCoveredByStation() {
 		coveredPeople = new ArrayList<Person>();
 	}
+
+	ArrayList<Person> coveredPeople;
+	int adultsCount;
+	int childrenCount;
 
 	public ArrayList<Person> getCoveredPeople() {
 		return this.coveredPeople;

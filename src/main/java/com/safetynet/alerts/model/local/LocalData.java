@@ -3,10 +3,10 @@ package com.safetynet.alerts.model.local;
 /**
  * Target class for reading local data from json file
  * 
- * @see com.safetynet.alerts.controller.LocalDataReader
- * @see com.safetynet.alerts.model.local.LocalPerson
- * @see com.safetynet.alerts.model.local.LocalFireStation
- * @see com.safetynet.alerts.model.local.LocalMedicalRecord
+ * @see LocalDataReader
+ * @see LocalPerson
+ * @see LocalFireStation
+ * @see LocalMedicalRecord
  * 
  * @author MikeMatthews
  */

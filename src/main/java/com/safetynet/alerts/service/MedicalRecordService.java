@@ -10,6 +10,13 @@ import com.safetynet.alerts.repository.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service that returns MedicalRecord objects
+ * 
+ * @see MedicalRecord
+ * 
+ * @author MikeMatthews
+ */
 @Service
 public class MedicalRecordService {
 

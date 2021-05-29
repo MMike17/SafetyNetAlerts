@@ -10,6 +10,13 @@ import com.safetynet.alerts.repository.FireStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service that returns FireStation objects
+ * 
+ * @see FireStation
+ * 
+ * @author MikeMatthews
+ */
 @Service
 public class FireStationService {
 

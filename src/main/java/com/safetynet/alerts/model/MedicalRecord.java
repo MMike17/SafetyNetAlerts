@@ -31,6 +31,25 @@ public class MedicalRecord {
 		this.lastName = lastName;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+
+	@Column(name = "first_name")
+	String firstName;
+
+	@Column(name = "last_name")
+	String lastName;
+
+	@Column(name = "birth_date")
+	Date birthDate;
+
+	@Column(name = "medications")
+	String[] medications;
+
+	@Column(name = "allergies")
+	String[] allergies;
+
 	public Long getId() {
 		return this.id;
 	}
@@ -78,25 +97,6 @@ public class MedicalRecord {
 	public void setAllergies(String[] allergies) {
 		this.allergies = allergies;
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-
-	@Column(name = "first_name")
-	String firstName;
-
-	@Column(name = "last_name")
-	String lastName;
-
-	@Column(name = "birth_date")
-	Date birthDate;
-
-	@Column(name = "medications")
-	String[] medications;
-
-	@Column(name = "allergies")
-	String[] allergies;
 
 	/**
 	 * Returns true if the object doesn't have null important fields

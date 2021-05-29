@@ -13,10 +13,6 @@ import com.safetynet.alerts.model.Person;
  */
 public class FullPerson {
 
-	Person person;
-	MedicalRecord medicalRecord;
-	int age;
-
 	public FullPerson(Person person, MedicalRecord medicalRecord, int age) {
 
 		this.person = person;
@@ -27,6 +23,10 @@ public class FullPerson {
 	public FullPerson() {
 
 	}
+
+	Person person;
+	MedicalRecord medicalRecord;
+	int age;
 
 	public Person getPerson() {
 		return this.person;

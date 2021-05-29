@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Repository class to access FireStation objects in database
  * 
+ * @see FireStation
+ * 
  * @author MikeMatthews
- * @see MedicalRecord
  */
 @Repository
 public interface FireStationRepository extends CrudRepository<FireStation, Long> {

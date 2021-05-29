@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Repository class to access Person objects in database
  * 
- * @author MikeMatthews
  * @see Person
+ * 
+ * @author MikeMatthews
  */
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {

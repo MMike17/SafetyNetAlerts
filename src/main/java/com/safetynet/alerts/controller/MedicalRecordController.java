@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller class to receive requests regarding MedicalRecords
  * 
  * @see MedicalRecordService
+ * @see MedicalRecord
  * 
  * @author Mike Matthews
  */

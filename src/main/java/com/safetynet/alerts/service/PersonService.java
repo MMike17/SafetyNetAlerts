@@ -10,6 +10,13 @@ import com.safetynet.alerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service that returns Person objects
+ * 
+ * @see Person
+ * 
+ * @author MikeMatthews
+ */
 @Service
 public class PersonService {
 
