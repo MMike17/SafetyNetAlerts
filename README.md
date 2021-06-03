@@ -54,4 +54,5 @@ To run those rapports, go to the forlder that contains the pom.xml file and exec
 This command will generate a web site page containing usefull information about the project.
 
 You can find the website main page at this path : `[project directory]/target/site/index.html`
+
 Or you can access the "project reports" page directly at this path : `[project directory]/target/site/project-reports.html`
