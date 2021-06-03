@@ -39,6 +39,19 @@ You can also import the code into an IDE and run the app through it's GUI (if su
 
 The app has unit tests and integration tests written.
 
-To run the tests from maven, go to the folder that contains the pom.xml file and execute the below command.
+To run the tests from maven, go to the folder that contains the pom.xml file and execute the command below.
 
 `mvn test`
+
+### Reporting
+
+The app can generate testing reports on its code.
+
+To run those rapports, go to the forlder that contains the pom.xml file and execute the command below.
+
+`mvn site`
+
+This command will generate a web site page containing usefull information about the project.
+
+You can find the website main page at this path : `[project directory]/target/site/index.html`
+Or you can access the "project reports" page directly at this path : `[project directory]/target/site/project-reports.html`
